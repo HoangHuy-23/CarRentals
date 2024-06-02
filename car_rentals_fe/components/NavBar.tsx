@@ -38,7 +38,10 @@ const NavBar = () => {
         <div className="hidden md:block">
           <ul className="flex items-center gap-6 font-semibold">
             {NavLinks.map((data) => (
-              <li key={data.id} className="">
+              <li
+                key={data.id}
+                className="hover:border-b-2 hover:border-blue-700  transition-colors duration-500 text-lg font-medium"
+              >
                 <a
                   href={data.link}
                   className={`${data.id === "1" ? "text-blue-600" : ""}  `}
