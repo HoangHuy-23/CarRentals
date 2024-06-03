@@ -1,5 +1,5 @@
 "use client";
-import { Hero, SearchBar } from "@/components";
+import { Hero, ListCar, NavBar, SearchBar } from "@/components";
 import Image from "next/image";
 
 export default function Home() {
@@ -7,6 +7,7 @@ export default function Home() {
     <main className="overflow-hidden">
       <Hero />
       <SearchBar />
+      <ListCar />
     </main>
   );
 }

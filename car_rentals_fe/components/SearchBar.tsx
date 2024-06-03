@@ -2,16 +2,18 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import SearchLocation from "./SearchLocation";
+import Selector from "./Selector";
 
 const SearchBar = () => {
   const [model1, setModel1] = useState("");
   const [location, setLocation] = useState("");
   return (
     <div className="max-width padding-x pt-24">
-      <div className="w-full h-20 bg-blue-100 rounded-xl flex justify-center relative">
-        <form action="" className="searchbar gap-5 mx-6">
-          <div className="searchbar__item">
+      <div className="w-full bg-blue-100 rounded-xl flex justify-center relative">
+        <form action="" className="searchbar gap-5 mx-6 my-4">
+          <div className="searchbar__item relative">
             <SearchLocation selected={location} setSelected={setLocation} />
+            {/* <Selector /> */}
           </div>
           <div className="searchbar__item">
             <Image
