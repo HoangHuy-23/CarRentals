@@ -1,5 +1,5 @@
 "use client";
-import { Hero, ListCar, NavBar, SearchBar } from "@/components";
+import { Hero, ListCar, NavBar, SearchBar, Selector } from "@/components";
 import Image from "next/image";
 
 export default function Home() {
@@ -8,6 +8,7 @@ export default function Home() {
       <Hero />
       <SearchBar />
       <ListCar />
+      {/* <Selector /> */}
     </main>
   );
 }

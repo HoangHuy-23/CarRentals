@@ -2,30 +2,19 @@
 import React, { useEffect, useState, FC } from "react";
 import { BiChevronDown } from "react-icons/bi";
 import { AiOutlineSearch } from "react-icons/ai";
-
-interface Country {
-  name: string;
-}
+import { locations } from "@/constants";
 
 const Selector = () => {
-  const [countries, setCountries] = useState<Country[] | null>(null);
+  // const [location, setLocation] = useState<Location[] | null>(null);
   const [inputValue, setInputValue] = useState<string>("");
   const [selected, setSelected] = useState<string>("");
   const [open, setOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    fetch("https://restcountries.com/v2/all?fields=name")
-      .then((res) => res.json())
-      .then((data: Country[]) => {
-        setCountries(data);
-      });
-  }, []);
-
   return (
-    <div className="search-location__input">
+    <div className="search-location__input relative w-full max-w-xs">
       <div
         onClick={() => setOpen(!open)}
-        className={`bg-white w-full p-2 flex items-center justify-between rounded ${
+        className={`bg-white w-full p-2 flex items-center justify-between rounded absolute${
           !selected && "text-gray-700"
         }`}
       >
@@ -51,28 +40,26 @@ const Selector = () => {
             className="placeholder:text-gray-700 p-2 outline-none"
           />
         </div>
-        {countries?.map((country) => (
+        {locations.map((location) => (
           <li
-            key={country.name}
+            key={location}
             className={`p-2 text-sm hover:bg-sky-600 hover:text-white
             ${
-              country.name.toLowerCase() === selected.toLowerCase() &&
+              location.toLowerCase() === selected.toLowerCase() &&
               "bg-sky-600 text-white"
             }
             ${
-              country.name.toLowerCase().startsWith(inputValue)
-                ? "block"
-                : "hidden"
+              location.toLowerCase().startsWith(inputValue) ? "block" : "hidden"
             }`}
             onClick={() => {
-              if (country.name.toLowerCase() !== selected.toLowerCase()) {
-                setSelected(country.name);
+              if (location.toLowerCase() !== selected.toLowerCase()) {
+                setSelected(location);
                 setOpen(false);
                 setInputValue("");
               }
             }}
           >
-            {country.name}
+            {location}
           </li>
         ))}
       </ul>
