@@ -44,7 +44,7 @@ const SearchLocation = ({ selected, setSelected }: SearchLocationProps) => {
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="search-location__options z-10">
+            <Combobox.Options className="search-location__options z-20">
               {filterLocation.map((item) => (
                 <Combobox.Option
                   key={item}

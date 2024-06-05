@@ -24,22 +24,26 @@ public class Car {
     @Column(name = "model_of_year")
     private int modalOfYear;
     private String description;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private CarType carType;
     private boolean isCollateral;
     @Column(name = "num_of_seats")
     private int numOfSeats;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private FuelType fuelType;
     @Column(name = "fuel_consumption")
     private int fuelConsumption;
     @Column(name = "price_per_day")
     private long pricePerDay;
-    @ElementCollection
+    @OneToMany(mappedBy = "car")
     private List<CarImage> carImages;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private CarStatus status;
-
     @OneToMany(mappedBy = "car")
     private List<CarReview> carReviews;
+    @OneToMany(mappedBy = "car")
+    private List<Certificate> certificates;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id")
+    private CarOwner carOwner;
 }

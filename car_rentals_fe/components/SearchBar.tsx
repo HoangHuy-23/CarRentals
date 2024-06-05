@@ -36,21 +36,22 @@ const SearchBar = () => {
             />
           </div>
           <div className="searchbar__item">
-            <Image
+            {/* <Image
               src="/model-icon.png"
               width={25}
               height={25}
               className="absolute w-[20px] h-[20px] ml-4"
               alt="car model"
-            />
-            <input
-              type="text"
+            /> */}
+            {/* <input
+              type="datetime-local"
               name="model"
               value=""
               onChange={() => {}}
-              placeholder="Tigan"
+              placeholder="Drop-off Date"
               className="searchbar__input"
-            />
+            /> */}
+            <DateTimePicker />
           </div>
           <button
             type="submit"

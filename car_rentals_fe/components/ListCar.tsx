@@ -5,7 +5,6 @@ const ListCar = () => {
   return (
     <div className="w-full sm:px-16 px-6">
       ListCar
-      <DateTimePicker />
       <div className="h-60 w-20 bg-red-400"></div>
     </div>
   );

@@ -217,6 +217,10 @@
   @apply w-full h-[48px] pl-12 p-4 rounded-lg max-sm:rounded-full bg-white outline-none cursor-pointer text-sm;
 }
 
+.search-location__input input:focus {
+  @apply outline-none;
+}
+
 .search-location__options {
   @apply absolute my-2 max-h-40 w-full overflow-auto rounded-md bg-white py-2 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm;
 }

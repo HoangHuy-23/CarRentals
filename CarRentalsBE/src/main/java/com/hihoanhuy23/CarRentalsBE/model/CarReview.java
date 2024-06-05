@@ -18,9 +18,11 @@ public class CarReview {
     private int start;
     private String review;
     private LocalDate dateOfReview;
+    @EmbeddedId
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_id")
     private Car car;
+    @EmbeddedId
     @ManyToOne()
     @JoinColumn(name = "customer_id")
     private Customer customer;

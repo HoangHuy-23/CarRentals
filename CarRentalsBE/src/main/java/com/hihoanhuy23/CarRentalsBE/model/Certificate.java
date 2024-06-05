@@ -7,17 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "car_image")
+@Table(name = "certificate")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarImage {
-    @Column(name = "url_image")
-    private String urlImage;
-    private String description;
+public class Certificate {
+    @Enumerated(EnumType.STRING)
+    private CertificateType certificateType;
+    @Column(name = "url_file")
+    private String urlFile;
     @EmbeddedId
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
 }

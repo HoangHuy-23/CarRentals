@@ -1,9 +1,6 @@
 package com.hihoanhuy23.CarRentalsBE.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,14 +15,13 @@ import java.sql.Blob;
 @NoArgsConstructor
 @Table(name = "credential")
 public class Credential {
+    @Enumerated(EnumType.STRING)
     private CredentialType credentialType;
-    private Blob image;
-
+    @Column(name = "url_file")
+    private String urlFile;
+    @EmbeddedId
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    @ManyToOne
-    @JoinColumn(name = "car_owner_id")
-    private CarOwner carOwner;
 }
