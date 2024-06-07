@@ -200,11 +200,14 @@
 }
 
 .searchbar__item {
-  @apply flex-1 max-sm:w-full flex justify-start items-center relative;
+  @apply flex-1 max-sm:w-full justify-start items-center relative;
+}
+.searchbar__item-title {
+  @apply text-gray-500 font-semibold text-sm ml-2;
 }
 
 .searchbar__input {
-  @apply w-full h-[48px] pl-12 p-4 bg-white rounded-lg max-sm:rounded-full outline-none cursor-pointer text-sm;
+  @apply w-full h-[40px]  p-2 bg-white rounded-lg  outline-none cursor-pointer text-sm;
 }
 /* END: searchbar styles */
 
@@ -214,7 +217,7 @@
 }
 
 .search-location__input {
-  @apply w-full h-[48px] pl-12 p-4 rounded-lg max-sm:rounded-full bg-white outline-none cursor-pointer text-sm;
+  @apply w-full h-[40px] pr-12 p-2 rounded-lg  bg-white outline-none cursor-pointer text-sm;
 }
 
 .search-location__input input:focus {

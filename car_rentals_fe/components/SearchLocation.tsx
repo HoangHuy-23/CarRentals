@@ -19,24 +19,23 @@ const SearchLocation = ({ selected, setSelected }: SearchLocationProps) => {
         );
 
   return (
-    <div className="search-location">
-      <Combobox value={selected} onChange={setSelected}>
+    <div className="search-location min-w-56">
+      <Combobox value={selected} onChange={setSelected} name="location">
         <div className="relative w-full">
-          <Combobox.Button className="absolute top-[14px]">
-            <Image
-              src="/model-icon.png"
-              width={20}
-              height={20}
-              className="ml-4"
-              alt="location logo"
-            />
-          </Combobox.Button>
           <Combobox.Input
             className="search-location__input"
             placeholder="Location"
             displayValue={(location: string) => location}
             onChange={(e) => setQuery(e.target.value)}
           />
+          <Combobox.Button className="absolute top-[10px] right-4">
+            <Image
+              src="/model-icon.png"
+              width={18}
+              height={18}
+              alt="location logo"
+            />
+          </Combobox.Button>
           <Transition
             as={Fragment}
             leave="transition ease-in duration-100"
