@@ -1,10 +1,11 @@
 package com.hihoanhuy23.CarRentalsBE.model;
 
-import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,28 +17,33 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
+@Table(name = "user_address")
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "rental_contact")
-public class RentalContact {
+@NoArgsConstructor
+public class UserAddress {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	@ManyToOne
-	@JoinColumn(name = "car_id")
-	private Car car;
-	@ManyToOne
+	
+	@Column(name = "remind_name")
+	private String remindName;
+	private String city;
+	private String district;
+	private String ward;
+
+	@Column(name = "address_map")
+	private String addressMap;
+	private boolean isDefault;
+	
+	@Enumerated(EnumType.STRING)
+	private UserAddressType type;
+
+	@ManyToOne()
 	@JoinColumn(name = "user_id")
 	private User user;
-	@Column(name  = "pick_up_date")
-    private LocalDateTime pickUpDate;
-    @Column(name = "drop_off_date")
-    private LocalDateTime dropOffDate;
-    @Column(name = "rental_insurance")
-	private Long rentalInsurance;
-    @Column(name = "total_price")
-	private Long totalPrice;
+	
+
 }

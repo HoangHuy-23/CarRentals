@@ -1,30 +1,33 @@
 package com.hihoanhuy23.CarRentalsBE.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
+
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
-@Entity
-@Table(name = "car_review")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "car_review")
 public class CarReview {
-    private int start;
+	private int start;
     private String review;
-    private LocalDate dateOfReview;
+    private LocalDate createAt;
     @EmbeddedId
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
     @EmbeddedId
-    @ManyToOne()
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

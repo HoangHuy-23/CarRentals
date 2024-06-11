@@ -1,49 +1,70 @@
 package com.hihoanhuy23.CarRentalsBE.model;
 
-import jakarta.persistence.*;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
-@Entity
-@Table(name = "car")
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    @Column(name = "car_location")
-    private String carLocation;
-    @Column(name = "model_of_year")
-    private int modalOfYear;
-    private String description;
-    @Enumerated(EnumType.STRING)
-    private CarType carType;
-    private boolean isCollateral;
-    @Column(name = "num_of_seats")
-    private int numOfSeats;
-    @Enumerated(EnumType.STRING)
-    private FuelType fuelType;
-    @Column(name = "fuel_consumption")
-    private int fuelConsumption;
-    @Column(name = "price_per_day")
-    private long pricePerDay;
-    @OneToMany(mappedBy = "car")
-    private List<CarImage> carImages;
-    @Enumerated(EnumType.STRING)
-    private CarStatus status;
-    @OneToMany(mappedBy = "car")
-    private List<CarReview> carReviews;
-    @OneToMany(mappedBy = "car")
-    private List<Certificate> certificates;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id")
-    private CarOwner carOwner;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+	@Column(name = "licence_plates")
+	private String licencePlates;
+	private String company;
+	private String model;
+	private int seats;
+	@Column(name = "year_of_production")
+	private int yearOfProduction;
+	@Enumerated(EnumType.STRING)
+	private TransmissionType transmission;
+	@Enumerated(EnumType.STRING)
+	private FuelType fuel;
+	@Column(name = "fuel_consumption")
+	private int fuelConsumption;
+	private String description;
+	private Long price;
+	@Embedded
+	private CarAddress address;
+	@Column(name = "car_rental_terms")
+	private String carRentalTerms;
+	@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<CarImage> carImages;
+	@Enumerated(EnumType.STRING)
+	private AuthenticationStatus status;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "owner_id")
+	private User owner;
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "user_favourite_car",
+			joinColumns = @JoinColumn(name = "car_id"),
+			inverseJoinColumns = @JoinColumn(name = "user_id")
+	)
+	private Set<User> userFavourite;
+	
+	@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<RentalContact> listRentalContact;
+	
 }
