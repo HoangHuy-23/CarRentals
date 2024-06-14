@@ -87,6 +87,7 @@ public class UserServiceImplementation implements UserService{
 
     @Override
     public User updateUser(String jwt, User req) throws UserException {
+
         return null;
     }
 
