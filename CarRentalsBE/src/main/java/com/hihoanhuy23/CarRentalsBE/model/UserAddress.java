@@ -1,6 +1,7 @@
 package com.hihoanhuy23.CarRentalsBE.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
@@ -41,6 +42,7 @@ public class UserAddress {
 	@Enumerated(EnumType.STRING)
 	private UserAddressType type;
 
+	@JsonIgnore
 	@ManyToOne()
 	@JoinColumn(name = "user_id")
 	private User user;

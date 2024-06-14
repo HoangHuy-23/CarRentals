@@ -2,6 +2,7 @@ package com.hihoanhuy23.CarRentalsBE.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -24,8 +25,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "driver_licsense")
-public class DriverLicsense {
+@Table(name = "driver_license")
+public class DriverLicense {
 	private String code;
 	@Column(name = "full_name")
 	private String fullName;
@@ -35,6 +36,7 @@ public class DriverLicsense {
 	private String urlImage;
 	@Enumerated(EnumType.STRING)
 	private AuthenticationStatus status;
+	@JsonIgnore
 	@EmbeddedId
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")

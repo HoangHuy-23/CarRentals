@@ -2,15 +2,7 @@ package com.hihoanhuy23.CarRentalsBE.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,4 +32,6 @@ public class RentalContact {
 	private Long rentalInsurance;
     @Column(name = "total_price")
 	private Long totalPrice;
+	@Enumerated(EnumType.STRING)
+	private RentalStatusType status;
 }

@@ -2,6 +2,7 @@ package com.hihoanhuy23.CarRentalsBE.model;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -51,11 +52,14 @@ public class Car {
 	private String carRentalTerms;
 	@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<CarImage> carImages;
+	private int numOfTrip;
 	@Enumerated(EnumType.STRING)
 	private AuthenticationStatus status;
+	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "owner_id")
 	private User owner;
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "user_favourite_car",
@@ -63,7 +67,8 @@ public class Car {
 			inverseJoinColumns = @JoinColumn(name = "user_id")
 	)
 	private Set<User> userFavourite;
-	
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<RentalContact> listRentalContact;
 	

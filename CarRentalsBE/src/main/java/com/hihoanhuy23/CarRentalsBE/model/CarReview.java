@@ -20,7 +20,7 @@ import lombok.Setter;
 @Table(name = "car_review")
 public class CarReview {
 	private int start;
-    private String review;
+    private String comment;
     private LocalDate createAt;
     @EmbeddedId
     @ManyToOne

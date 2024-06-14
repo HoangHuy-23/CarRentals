@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,13 +19,15 @@ import java.util.Collections;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableWebSecurity
 public class AppConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/api/**").authenticated().anyRequest().permitAll())
+                        authorize.requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/api/**").authenticated().anyRequest().permitAll())
                 .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
@@ -33,7 +36,7 @@ public class AppConfig {
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration cfg = new CorsConfiguration();
                         cfg.setAllowedOrigins(Arrays.asList(
-                                "http://localhost:3000",
+                                "http://localhost:2003",
                                 "http://localhost:4200"
                         ));
                         cfg.setAllowedMethods(Collections.singletonList("*"));
