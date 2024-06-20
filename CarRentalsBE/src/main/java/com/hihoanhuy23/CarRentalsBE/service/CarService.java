@@ -4,6 +4,7 @@ package com.hihoanhuy23.CarRentalsBE.service;
 import com.hihoanhuy23.CarRentalsBE.exception.CarException;
 import com.hihoanhuy23.CarRentalsBE.exception.UserException;
 import com.hihoanhuy23.CarRentalsBE.model.Car;
+import com.hihoanhuy23.CarRentalsBE.model.CarReview;
 import com.hihoanhuy23.CarRentalsBE.model.User;
 import com.hihoanhuy23.CarRentalsBE.request.CreateCarRequest;
 
@@ -22,5 +23,11 @@ public interface CarService {
 
     public Car updateCarStatus(Long carId) throws CarException;
 
-    public List<Car> filterCar(String city, LocalDateTime pickUp, LocalDateTime dropOff);
+    public List<Car> searchCarByLocation(String city);
+
+    public List<Car> filterCars(String city, String company, String fuel, String transmission, int minPrice, int maxPrice, int minSeats, int maxSeats, int yearOfProduction, int fuelConsumption, String sort);
+
+    public User getOwner(Long carId) throws CarException;
+
+    public Set<CarReview> getCarReview(Long carId) throws CarException;
 }

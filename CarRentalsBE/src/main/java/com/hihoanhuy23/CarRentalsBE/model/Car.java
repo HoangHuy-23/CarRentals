@@ -70,6 +70,10 @@ public class Car {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<CarReview> carReviews;
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<RentalContact> listRentalContact;
 	
 }

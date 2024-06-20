@@ -2,6 +2,7 @@ package com.hihoanhuy23.CarRentalsBE.model;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -25,9 +26,11 @@ public class CarReview {
     @EmbeddedId
     @ManyToOne
     @JoinColumn(name = "car_id")
+    @JsonIgnore
     private Car car;
     @EmbeddedId
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 }

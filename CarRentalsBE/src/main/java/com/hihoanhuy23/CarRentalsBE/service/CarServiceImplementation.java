@@ -81,8 +81,25 @@ public class CarServiceImplementation implements CarService{
     }
 
     @Override
-    public List<Car> filterCar(String city, LocalDateTime pickUp, LocalDateTime dropOff) {
-        return List.of();
+    public List<Car> searchCarByLocation(String city) {
+        return carRepository.searchCarByLocation(city);
+    }
+
+    @Override
+    public List<Car> filterCars(String city, String company, String fuel, String transmission, int minPrice, int maxPrice, int minSeats, int maxSeats, int yearOfProduction, int fuelConsumption, String sort) {
+        return carRepository.filterCars(city, company, fuel, transmission, minPrice, maxPrice, minSeats, maxSeats, yearOfProduction,fuelConsumption, sort);
+    }
+
+    @Override
+    public User getOwner(Long carId) throws CarException {
+        Car car = findCarById(carId);
+        return car.getOwner();
+    }
+
+    @Override
+    public Set<CarReview> getCarReview(Long carId) throws CarException {
+        Car car = findCarById(carId);
+        return car.getCarReviews();
     }
 
 }
