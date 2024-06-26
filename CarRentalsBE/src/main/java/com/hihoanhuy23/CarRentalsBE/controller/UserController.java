@@ -5,6 +5,7 @@ import com.hihoanhuy23.CarRentalsBE.exception.UserException;
 import com.hihoanhuy23.CarRentalsBE.model.Car;
 import com.hihoanhuy23.CarRentalsBE.model.CarReview;
 import com.hihoanhuy23.CarRentalsBE.model.User;
+import com.hihoanhuy23.CarRentalsBE.request.CreateCarRequest;
 import com.hihoanhuy23.CarRentalsBE.request.CreateReviewRequest;
 import com.hihoanhuy23.CarRentalsBE.response.ApiResponse;
 import com.hihoanhuy23.CarRentalsBE.service.CarService;
@@ -71,6 +72,14 @@ public class UserController {
         Car car = carService.findCarById(carId);
         CarReview review= userService.reviewCar(user, car, req);
         ApiResponse<CarReview> response = new ApiResponse<>(true, "review successfully", review);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/create-new-car")
+    public ResponseEntity<ApiResponse<Car>> createCarHandler(@RequestBody CreateCarRequest carReq, @RequestHeader("Authorization") String jwt) throws Exception{
+        User user = userService.findUserProfileByJwt(jwt);
+        Car savedCar = carService.createCar(carReq, user);
+        ApiResponse<Car> response = new ApiResponse<>(true, "Car create successfully", savedCar);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }

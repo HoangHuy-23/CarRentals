@@ -5,15 +5,17 @@ import com.hihoanhuy23.CarRentalsBE.exception.UserException;
 import com.hihoanhuy23.CarRentalsBE.model.*;
 import com.hihoanhuy23.CarRentalsBE.repository.CarRepository;
 import com.hihoanhuy23.CarRentalsBE.request.CreateCarRequest;
+import com.hihoanhuy23.CarRentalsBE.response.CarSearchResponse;
+import com.hihoanhuy23.CarRentalsBE.response.PaginationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -39,6 +41,7 @@ public class CarServiceImplementation implements CarService{
         car.setCarRentalTerms(req.getCarRentalTerms());
         car.setOwner(owner);
         car.setNumOfTrip(0);
+        car.setRatingScores(0);
         car.setStatus(AuthenticationStatus.PENDING);
 
         Set<CarImage> carImages = new HashSet<>();
@@ -85,9 +88,40 @@ public class CarServiceImplementation implements CarService{
         return carRepository.searchCarByLocation(city);
     }
 
+
     @Override
-    public List<Car> filterCars(String city, String company, String fuel, String transmission, int minPrice, int maxPrice, int minSeats, int maxSeats, int yearOfProduction, int fuelConsumption, String sort) {
-        return carRepository.filterCars(city, company, fuel, transmission, minPrice, maxPrice, minSeats, maxSeats, yearOfProduction,fuelConsumption, sort);
+    public CarSearchResponse filterCars(Integer pageNo, String city, String company, FuelType fuel, TransmissionType transmission, Integer minPrice, Integer maxPrice, Integer minSeats, Integer maxSeats, Integer yearOfProduction, Integer fuelConsumption, String sort) {
+        if ("".equals(company)) {
+            company = null;
+        }
+        Sort orders = null;
+        if (sort.equals("price_low")) {
+            orders = Sort.by("price").ascending();
+        } else if (sort.equals("price_high")) {
+            orders = Sort.by("price").descending();
+        }
+        assert orders != null;
+        Pageable paging = PageRequest.of(pageNo, 2, orders);
+        Page<Car> pagedResult = carRepository.filterCars(city, company, fuel, transmission, minPrice, maxPrice, minSeats, maxSeats, yearOfProduction,fuelConsumption, paging);
+        List<Car> data = null;
+        if (pagedResult.hasContent()) {
+            data = pagedResult.getContent();
+        } else {
+            data = new ArrayList<>();
+        }
+
+        PaginationResponse pagination = new PaginationResponse(pagedResult.getTotalElements(), pageNo, pagedResult.getTotalPages());
+        return new CarSearchResponse(data, pagination);
+    }
+
+    @Override
+    public List<Car> findAll(Integer pageNo, Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<Car> pagedResult = carRepository.findAll(paging);
+        if (!pagedResult.hasContent()) {
+            return new ArrayList<Car>();
+        }
+        return pagedResult.stream().toList();
     }
 
     @Override

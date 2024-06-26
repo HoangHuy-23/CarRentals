@@ -55,6 +55,8 @@ public class Car {
 	private int numOfTrip;
 	@Enumerated(EnumType.STRING)
 	private AuthenticationStatus status;
+	@Column(name = "rating_scores")
+	private double ratingScores;
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "owner_id")

@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -18,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
 
 const frameworks = [
   {
@@ -42,7 +42,12 @@ const frameworks = [
   },
 ];
 
-export function SearchLocation() {
+type Props = {
+  location: string;
+  setLocation: (location: string) => void;
+};
+
+export function SearchLocation({ location, setLocation }: Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -58,7 +63,7 @@ export function SearchLocation() {
           {value
             ? frameworks.find((framework) => framework.value === value)?.label
             : "Select location..."}
-          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
@@ -77,10 +82,11 @@ export function SearchLocation() {
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
+                    setLocation(framework.label);
                   }}
                 >
                   {framework.label}
-                  <CheckIcon
+                  <Check
                     className={cn(
                       "ml-auto h-4 w-4",
                       value === framework.value ? "opacity-100" : "opacity-0"

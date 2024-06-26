@@ -1,11 +1,10 @@
 "use client";
-import Link from "next/link";
-import { Car } from "./types";
-import { AspectRatio } from "./ui/aspect-ratio";
+import { AspectRatio } from "../ui/aspect-ratio";
 import { Heart, Luggage, MapPin, Star } from "lucide-react";
-import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
+import { Separator } from "../ui/separator";
+import { Button } from "../ui/button";
 import { useState } from "react";
+import { Car } from "@/types";
 
 type Props = {
   car: Car;

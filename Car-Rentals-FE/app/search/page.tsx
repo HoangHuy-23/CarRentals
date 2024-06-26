@@ -1,10 +1,6 @@
-"use client";
-
-import { CarFilter } from "@/components/CarFilter";
-import SearchResultCard from "@/components/SearchResultCard";
-import SearchResultInfo from "@/components/SearchResultInfo";
-import { SelectOptionSort } from "@/components/SelectOptionSort";
-import { CalendarRange, MapPin } from "lucide-react";
+import { CarFilter } from "@/components/Filter/CarFilter";
+import LocationDate from "@/components/Search/LocationDate";
+import SearchCarResult from "@/components/SearchCarResult/SearchCarResult";
 
 const cars = [
   {
@@ -75,33 +71,12 @@ export type SearchState = {
 export default function page() {
   return (
     <div className="container mx-auto flex-1 py-10">
-      <div className="flex flex-row justify-center items-center gap-5 mb-10">
-        <span>
-          <MapPin className="float-start mr-2" /> Tp.Ho Chi Minh
-        </span>
-        <span>
-          <CalendarRange className="float-start mr-2" /> 21:00, 19/06/2024 -
-          20:00, 20/06/2024
-        </span>
-      </div>
+      <LocationDate />
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-5">
         <div id="filter-list" className="">
           <CarFilter />
         </div>
-        <div id="main-content" className="flex flex-col gap-5">
-          <div className="w-full flex justify-between">
-            <SearchResultInfo total={10} city="Tp.Ho Chi Minh" />
-            <div className="flex justify-between flex-col gap-3 lg:flex-row">
-              <SelectOptionSort />
-            </div>
-          </div>
-          {cars.map((car) => (
-            <SearchResultCard car={car} isfavourite={false} key={car.id} />
-          ))}
-
-          <div>Search result</div>
-          <div>Pagination</div>
-        </div>
+        <SearchCarResult data={cars} />
       </div>
     </div>
   );

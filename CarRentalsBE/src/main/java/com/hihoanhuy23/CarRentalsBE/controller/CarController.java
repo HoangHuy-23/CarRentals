@@ -2,12 +2,12 @@ package com.hihoanhuy23.CarRentalsBE.controller;
 
 
 import com.hihoanhuy23.CarRentalsBE.exception.CarException;
-import com.hihoanhuy23.CarRentalsBE.model.Car;
-import com.hihoanhuy23.CarRentalsBE.model.CarReview;
-import com.hihoanhuy23.CarRentalsBE.model.User;
+import com.hihoanhuy23.CarRentalsBE.model.*;
 import com.hihoanhuy23.CarRentalsBE.repository.CarRepository;
 import com.hihoanhuy23.CarRentalsBE.request.CreateCarRequest;
 import com.hihoanhuy23.CarRentalsBE.response.ApiResponse;
+import com.hihoanhuy23.CarRentalsBE.response.CarSearchResponse;
+import com.hihoanhuy23.CarRentalsBE.response.PaginationResponse;
 import com.hihoanhuy23.CarRentalsBE.service.CarService;
 import com.hihoanhuy23.CarRentalsBE.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +30,7 @@ public class CarController {
     private CarRepository carRepository;
 
 
-    @PostMapping("/create")
-    public ResponseEntity<ApiResponse<Car>> createCarHandler(@RequestBody CreateCarRequest carReq, @RequestHeader("Authorization") String jwt) throws Exception{
-        User user = userService.findUserProfileByJwt(jwt);
-        Car savedCar = carService.createCar(carReq, user);
-        ApiResponse<Car> response = new ApiResponse<>(true, "Car create successfully", savedCar);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
+
     @GetMapping("/car")
     public ResponseEntity<ApiResponse<Car>> findCarByIdHandler(@RequestParam Long carId) throws CarException {
         Car car = carService.findCarById(carId);
@@ -52,18 +46,25 @@ public class CarController {
     }
 
     @GetMapping("/filter")
-    public ResponseEntity<ApiResponse<List<Car>>> filterCars(@RequestParam String city,
-                                                             @RequestParam String company,
-                                                             @RequestParam String fuel,
-                                                             @RequestParam String transmission,
-                                                             @RequestParam Integer minPrice,
-                                                             @RequestParam Integer maxPrice,
-                                                             @RequestParam Integer minSeats,
-                                                             @RequestParam Integer maxSeats,
-                                                             @RequestParam Integer yearOfProduction,
-                                                             @RequestParam Integer fuelConsumption,
-                                                             @RequestParam String sort) {
-        List<Car> cars = carService.filterCars(city, company, fuel, transmission, minPrice, maxPrice, minSeats, maxSeats, yearOfProduction,fuelConsumption, sort);
+    public ResponseEntity<CarSearchResponse> filterCars(@RequestParam Integer pageNo,
+                                                        @RequestParam String city,
+                                                        @RequestParam(required = false) String company,
+                                                        @RequestParam(required = false) FuelType fuel,
+                                                        @RequestParam(required = false) TransmissionType transmission,
+                                                        @RequestParam(required = false) Integer minPrice,
+                                                        @RequestParam(required = false) Integer maxPrice,
+                                                        @RequestParam(required = false) Integer minSeats,
+                                                        @RequestParam(required = false) Integer maxSeats,
+                                                        @RequestParam(required = false) Integer yearOfProduction,
+                                                        @RequestParam(required = false) Integer fuelConsumption,
+                                                        @RequestParam(required = false) String sort) {
+        CarSearchResponse response = carService.filterCars(pageNo,city, company, fuel, transmission, minPrice, maxPrice, minSeats, maxSeats, yearOfProduction,fuelConsumption, sort);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<ApiResponse<List<Car>>> findAll(@RequestParam Integer pageNo, @RequestParam Integer pageSize) {
+        List<Car> cars = carService.findAll(pageNo, pageSize);
         ApiResponse<List<Car>> response = new ApiResponse<>(true, "fetch list car filter successfully", cars);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

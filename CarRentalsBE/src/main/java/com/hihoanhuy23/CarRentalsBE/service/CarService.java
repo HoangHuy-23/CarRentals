@@ -3,10 +3,9 @@ package com.hihoanhuy23.CarRentalsBE.service;
 
 import com.hihoanhuy23.CarRentalsBE.exception.CarException;
 import com.hihoanhuy23.CarRentalsBE.exception.UserException;
-import com.hihoanhuy23.CarRentalsBE.model.Car;
-import com.hihoanhuy23.CarRentalsBE.model.CarReview;
-import com.hihoanhuy23.CarRentalsBE.model.User;
+import com.hihoanhuy23.CarRentalsBE.model.*;
 import com.hihoanhuy23.CarRentalsBE.request.CreateCarRequest;
+import com.hihoanhuy23.CarRentalsBE.response.CarSearchResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,9 +24,11 @@ public interface CarService {
 
     public List<Car> searchCarByLocation(String city);
 
-    public List<Car> filterCars(String city, String company, String fuel, String transmission, int minPrice, int maxPrice, int minSeats, int maxSeats, int yearOfProduction, int fuelConsumption, String sort);
+    CarSearchResponse filterCars(Integer pageNo, String city, String company, FuelType fuel, TransmissionType transmission, Integer minPrice, Integer maxPrice, Integer minSeats, Integer maxSeats, Integer yearOfProduction, Integer fuelConsumption, String sort);
 
     public User getOwner(Long carId) throws CarException;
 
     public Set<CarReview> getCarReview(Long carId) throws CarException;
+
+    public List<Car> findAll(Integer pageNo, Integer pageSize);
 }

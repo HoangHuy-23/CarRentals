@@ -27,7 +27,7 @@ public class AppConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize ->
                         authorize.requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
-                        .requestMatchers("/api/**").authenticated().anyRequest().permitAll())
+                        .requestMatchers("/api/user/**").authenticated().anyRequest().permitAll())
                 .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(new CorsConfigurationSource() {
@@ -37,7 +37,7 @@ public class AppConfig {
                         CorsConfiguration cfg = new CorsConfiguration();
                         cfg.setAllowedOrigins(Arrays.asList(
                                 "http://localhost:2003",
-                                "http://localhost:4200"
+                                "http://localhost:3000"
                         ));
                         cfg.setAllowedMethods(Collections.singletonList("*"));
                         cfg.setAllowCredentials(true);

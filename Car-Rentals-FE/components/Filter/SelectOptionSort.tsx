@@ -19,11 +19,8 @@ export function SelectOptionSort() {
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Sort by</SelectLabel>
-          <SelectItem value="apple">Apple</SelectItem>
-          <SelectItem value="banana">Banana</SelectItem>
-          <SelectItem value="blueberry">Blueberry</SelectItem>
-          <SelectItem value="grapes">Grapes</SelectItem>
-          <SelectItem value="pineapple">Pineapple</SelectItem>
+          <SelectItem value="apple">Price Low</SelectItem>
+          <SelectItem value="banana">Price High</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
