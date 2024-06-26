@@ -11,15 +11,26 @@ const makers = [
   },
 ];
 
-export default function FilterAutomaker() {
+type Props = {
+  automaker: string;
+  setAutomaker: (automaker: string) => void;
+};
+
+export default function FilterAutomaker({ automaker, setAutomaker }: Props) {
   return (
-    <RadioGroup defaultValue="all">
+    <RadioGroup
+      value={automaker}
+      defaultValue="all"
+      onValueChange={(value) => {
+        setAutomaker(value);
+      }}
+    >
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="all" id="r1" />
         <Label htmlFor="r1">All</Label>
       </div>
       {makers.map((maker) => (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2" key={maker.name}>
           <RadioGroupItem value={maker.name} id={maker.name} />
           {/* <Image src={maker.logo} alt="" width={10} height={10} /> */}
           <img src={maker.logo} alt="" className="w-6 h-6" />

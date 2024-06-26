@@ -49,16 +49,12 @@ public class CarController {
     public ResponseEntity<CarSearchResponse> filterCars(@RequestParam Integer pageNo,
                                                         @RequestParam String city,
                                                         @RequestParam(required = false) String company,
-                                                        @RequestParam(required = false) FuelType fuel,
-                                                        @RequestParam(required = false) TransmissionType transmission,
-                                                        @RequestParam(required = false) Integer minPrice,
-                                                        @RequestParam(required = false) Integer maxPrice,
-                                                        @RequestParam(required = false) Integer minSeats,
-                                                        @RequestParam(required = false) Integer maxSeats,
-                                                        @RequestParam(required = false) Integer yearOfProduction,
-                                                        @RequestParam(required = false) Integer fuelConsumption,
+                                                        @RequestParam(required = false) String fuel,
+                                                        @RequestParam(required = false) String transmission,
+                                                        @RequestParam(required = false) Integer price,
+                                                        @RequestParam(required = false) String seat,
                                                         @RequestParam(required = false) String sort) {
-        CarSearchResponse response = carService.filterCars(pageNo,city, company, fuel, transmission, minPrice, maxPrice, minSeats, maxSeats, yearOfProduction,fuelConsumption, sort);
+        CarSearchResponse response = carService.filterCars(pageNo,city, company, fuel, transmission, price, seat, sort);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

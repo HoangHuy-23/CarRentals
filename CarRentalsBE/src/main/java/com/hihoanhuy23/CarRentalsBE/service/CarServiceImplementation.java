@@ -90,19 +90,35 @@ public class CarServiceImplementation implements CarService{
 
 
     @Override
-    public CarSearchResponse filterCars(Integer pageNo, String city, String company, FuelType fuel, TransmissionType transmission, Integer minPrice, Integer maxPrice, Integer minSeats, Integer maxSeats, Integer yearOfProduction, Integer fuelConsumption, String sort) {
-        if ("".equals(company)) {
+    public CarSearchResponse filterCars(Integer pageNo, String city, String company, String fuel, String transmission, Integer price, String seat, String sort) {
+        if ("all".equals(company)) {
             company = null;
         }
+        FuelType fuelType = null;
+        if (!"all".equals(fuel)) {
+            fuelType = FuelType.valueOf(fuel);
+        }
+
+        TransmissionType transmissionType = null;
+        if (!"all".equals(transmission)) {
+            transmissionType = TransmissionType.valueOf(transmission);
+        }
+
+        Integer seats = null;
+        if (!"all".equals(seat)) {
+            seats = Integer.parseInt(seat);
+        }
+
         Sort orders = null;
         if (sort.equals("price_low")) {
             orders = Sort.by("price").ascending();
         } else if (sort.equals("price_high")) {
             orders = Sort.by("price").descending();
         }
+
         assert orders != null;
-        Pageable paging = PageRequest.of(pageNo, 2, orders);
-        Page<Car> pagedResult = carRepository.filterCars(city, company, fuel, transmission, minPrice, maxPrice, minSeats, maxSeats, yearOfProduction,fuelConsumption, paging);
+        Pageable paging = PageRequest.of(pageNo-1, 2, orders);
+        Page<Car> pagedResult = carRepository.filterCars(city, company, fuelType, transmissionType, price, seats, paging);
         List<Car> data = null;
         if (pagedResult.hasContent()) {
             data = pagedResult.getContent();

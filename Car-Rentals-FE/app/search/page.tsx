@@ -1,6 +1,11 @@
+"use client";
+
 import { CarFilter } from "@/components/Filter/CarFilter";
 import LocationDate from "@/components/Search/LocationDate";
 import SearchCarResult from "@/components/SearchCarResult/SearchCarResult";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { searchCar } from "../actions/CarAction";
+import { useEffect, useState } from "react";
 
 const cars = [
   {
@@ -62,21 +67,63 @@ const cars = [
 ];
 
 export type SearchState = {
-  searchQuery: string;
   page: number;
-  selectedCuisines: string[];
-  sortOption: string;
+  city: string;
+  automaker: string;
+  fuel: string;
+  transmission: string;
+  price: number;
+  seat: string;
+  sort: string;
+};
+
+const initialSearchState: SearchState = {
+  page: 1,
+  city: "TP. Ho Chi Minh",
+  automaker: "all",
+  fuel: "all",
+  transmission: "all",
+  price: 3000,
+  seat: "all",
+  sort: "price_low",
 };
 
 export default function page() {
+  const [searchState, setSearchState] =
+    useState<SearchState>(initialSearchState);
+
+  const { data, isLoading, isError, refetch } = useQuery({
+    queryKey: ["searchCar", searchState],
+    queryFn: () => searchCar(searchState),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [searchState, refetch]);
+
+  const handleFilterChange = (updatedFilters: Partial<SearchState>) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      ...updatedFilters,
+    }));
+  };
+
   return (
     <div className="container mx-auto flex-1 py-10">
       <LocationDate />
       <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-5">
         <div id="filter-list" className="">
-          <CarFilter />
+          <CarFilter
+            filters={searchState}
+            onFilterChange={handleFilterChange}
+          />
         </div>
-        <SearchCarResult data={cars} />
+        <SearchCarResult
+          data={data?.data}
+          pagination={data?.pagination}
+          onFilterChange={handleFilterChange}
+        />
       </div>
     </div>
   );

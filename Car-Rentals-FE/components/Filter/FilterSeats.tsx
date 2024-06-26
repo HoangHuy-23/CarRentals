@@ -5,8 +5,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const seats = [
   {
-    id: "4",
-    name: "4 seats",
+    id: "5",
+    name: "5 seats",
   },
   {
     id: "7",
@@ -14,15 +14,26 @@ const seats = [
   },
 ];
 
-export default function FilterSeats() {
+type Props = {
+  seat: string;
+  setSeat: (seats: string) => void;
+};
+
+export default function FilterSeats({ seat, setSeat }: Props) {
   return (
-    <RadioGroup defaultValue="all">
+    <RadioGroup
+      value={seat}
+      defaultValue="all"
+      onValueChange={(value) => {
+        setSeat(value);
+      }}
+    >
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="all" id="r1" />
         <Label htmlFor="r1">All</Label>
       </div>
       {seats.map((seat) => (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2" key={seat.id}>
           <RadioGroupItem value={seat.id} id={seat.id} />
           <Label htmlFor="r2">{seat.name}</Label>
         </div>

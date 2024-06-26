@@ -64,3 +64,12 @@ export type UserAddress = {
   isDefault: boolean;
   type: string;
 };
+
+export type CarSearchResponse = {
+  data: Car[];
+  pagination: {
+    total: number;
+    page: number;
+    pages: number;
+  };
+};

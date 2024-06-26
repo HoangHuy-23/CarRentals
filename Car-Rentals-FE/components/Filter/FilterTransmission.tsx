@@ -3,21 +3,41 @@
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-export function FilterTransmission() {
+const transmissions = [
+  {
+    id: "MANUAL",
+    name: "Manual",
+  },
+  {
+    id: "AUTOMATIC",
+    name: "Automatic",
+  },
+];
+
+type Props = {
+  transmission: string;
+  setTransmission: (transmission: string) => void;
+};
+
+export function FilterTransmission({ transmission, setTransmission }: Props) {
   return (
-    <RadioGroup defaultValue="all">
+    <RadioGroup
+      value={transmission}
+      defaultValue="all"
+      onValueChange={(value) => {
+        setTransmission(value);
+      }}
+    >
       <div className="flex items-center space-x-2">
-        <RadioGroupItem value="all" id="r1" />
-        <Label htmlFor="r1">All</Label>
+        <RadioGroupItem value="all" id="all" />
+        <Label htmlFor="all">All</Label>
       </div>
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem value="manual" id="r2" />
-        <Label htmlFor="r2">Manual</Label>
-      </div>
-      <div className="flex items-center space-x-2">
-        <RadioGroupItem value="automatic" id="r3" />
-        <Label htmlFor="r3">Automatic</Label>
-      </div>
+      {transmissions.map((transmission) => (
+        <div className="flex items-center space-x-2" key={transmission.id}>
+          <RadioGroupItem value={transmission.id} id={transmission.id} />
+          <Label htmlFor={transmission.id}>{transmission.name}</Label>
+        </div>
+      ))}
     </RadioGroup>
   );
 }

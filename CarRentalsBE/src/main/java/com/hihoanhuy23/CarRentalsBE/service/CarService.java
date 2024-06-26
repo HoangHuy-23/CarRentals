@@ -24,7 +24,7 @@ public interface CarService {
 
     public List<Car> searchCarByLocation(String city);
 
-    CarSearchResponse filterCars(Integer pageNo, String city, String company, FuelType fuel, TransmissionType transmission, Integer minPrice, Integer maxPrice, Integer minSeats, Integer maxSeats, Integer yearOfProduction, Integer fuelConsumption, String sort);
+    CarSearchResponse filterCars(Integer pageNo, String city, String company, String fuel, String transmission, Integer price, String seat, String sort);
 
     public User getOwner(Long carId) throws CarException;
 

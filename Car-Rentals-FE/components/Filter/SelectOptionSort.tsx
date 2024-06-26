@@ -10,17 +10,28 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export function SelectOptionSort() {
+type Props = {
+  sort: string;
+  setSort: (sort: string) => void;
+};
+
+export function SelectOptionSort({ sort, setSort }: Props) {
   return (
-    <Select>
+    <Select
+      value={sort}
+      onValueChange={(value) => {
+        setSort(value);
+      }}
+      defaultValue="price_low"
+    >
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Sort by" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
           <SelectLabel>Sort by</SelectLabel>
-          <SelectItem value="apple">Price Low</SelectItem>
-          <SelectItem value="banana">Price High</SelectItem>
+          <SelectItem value="price_low">Price Low</SelectItem>
+          <SelectItem value="price_high">Price High</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

@@ -18,6 +18,9 @@ export default function SearchResultCard({ car, isfavourite }: Props) {
     if (favourite) setFavourite(false);
     else setFavourite(true);
   };
+
+  const imageUrl =
+    car && car.image && car.image.length > 0 ? car.image[0].url : "";
   return (
     <div
       //   href="/#"
@@ -35,7 +38,7 @@ export default function SearchResultCard({ car, isfavourite }: Props) {
       </Button>
       <AspectRatio ratio={12 / 6} className="my-2 mx-2">
         <img
-          src={car.image[0].url}
+          src={imageUrl}
           alt=""
           className="rounded-md w-full h-full object-cover"
         />
@@ -57,24 +60,28 @@ export default function SearchResultCard({ car, isfavourite }: Props) {
           </span>
         </div>
         <Separator />
-        <div className="w-full flex items-start py-2">
-          <span className="text-sm flex justify-center items-center">
-            <Star
-              className="float-start text-yellow-500"
-              width={20}
-              height={20}
-            />{" "}
-            5.0
-          </span>
-          <span className="text-sm flex justify-center items-center ml-8">
-            <Luggage
-              className="float-start text-blue-500"
-              width={20}
-              height={20}
-            />{" "}
-            {car.numOfTrip} trips
-          </span>
-        </div>
+
+        {car.numOfTrip === 0 ? (
+          <span className="text-sm text-blue-400">Car has not trip</span>
+        ) : (
+          <div className="w-full flex items-start py-2">
+            <span className="text-sm flex justify-center items-center">
+              <Star
+                className="float-start text-yellow-500"
+                width={20}
+                height={20}
+              />{" "}
+            </span>
+            <span className="text-sm flex justify-center items-center ml-8">
+              <Luggage
+                className="float-start text-blue-500"
+                width={20}
+                height={20}
+              />{" "}
+              {car.numOfTrip} trips
+            </span>
+          </div>
+        )}
       </div>
       <div className="flex md:flex-col justify-between md:justify-evenly items-center flex-row mx-2 my-2 relative">
         <Separator
