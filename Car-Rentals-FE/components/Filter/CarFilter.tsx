@@ -42,12 +42,6 @@ export function CarFilter({ filters, onFilterChange }: CarFilterProps) {
         >
           Reset all
         </Button>
-        <div className="flex justify-between flex-col gap-3 lg:flex-row">
-          <SelectOptionSort
-            sort={filters.sort}
-            setSort={(sort) => onFilterChange({ sort })}
-          />
-        </div>
       </div>
 
       <Accordion type="multiple" className="w-full">

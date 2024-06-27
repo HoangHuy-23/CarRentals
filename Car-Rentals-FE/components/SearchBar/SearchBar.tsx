@@ -15,7 +15,7 @@ const formatDate = (date: Date) => {
 };
 
 let now = new Date();
-const tomorrow = new Date(now);
+let tomorrow = new Date(now);
 tomorrow.setDate(now.getDate() + 1);
 
 export default function SearchBar() {
@@ -25,22 +25,48 @@ export default function SearchBar() {
   const [pickUpDate, setPickUpDate] = useState("");
   const [dropOffDate, setDropOffDate] = useState("");
 
+  const [errorLocation, setErrorLocation] = useState(false);
+  const [errorPick, setErrorPick] = useState(false);
+  const [errorDrop, setErrorDrop] = useState(false);
+
   useEffect(() => {
     now = new Date();
+    now.setHours(now.getHours() + 1);
     tomorrow.setDate(now.getDate() + 1);
+    tomorrow.setHours(tomorrow.getHours() + 1);
     setPickUpDate(formatDate(now));
     setDropOffDate(formatDate(tomorrow));
   }, []);
 
+  const revalidateFrom = () => {
+    if (location === "") {
+      setErrorLocation(true);
+      return false;
+    }
+    const pick = new Date(pickUpDate);
+    const drop = new Date(dropOffDate);
+    const today = new Date();
+    if (pick < today) {
+      setErrorPick(true);
+      return false;
+    }
+    if ((drop.getTime() - pick.getTime()) / 86400000 < 1) {
+      setErrorDrop(true);
+      return false;
+    }
+    return true;
+  };
+
   const handleButtonSearch = () => {
-    console.log(location, pickUpDate, dropOffDate);
-    router.push(
-      `/search?location=${encodeURIComponent(
-        location
-      )}&pickUpDate=${encodeURIComponent(
-        pickUpDate
-      )}&dropOffDate=${encodeURIComponent(dropOffDate)}`
-    );
+    if (revalidateFrom()) {
+      router.push(
+        `/search?location=${encodeURIComponent(
+          location
+        )}&pickUpDate=${encodeURIComponent(
+          pickUpDate
+        )}&dropOffDate=${encodeURIComponent(dropOffDate)}`
+      );
+    }
   };
   return (
     <div>
@@ -64,7 +90,12 @@ export default function SearchBar() {
             >
               Location
             </label>
-            <SearchLocation location={location} setLocation={setLocation} />
+            <SearchLocation
+              location={location}
+              setLocation={setLocation}
+              isEmpty={errorLocation}
+              setIsEmpty={setErrorLocation}
+            />
           </div>
           <div className="flex flex-col justify-center items-center max-md:w-full">
             <label
@@ -77,9 +108,21 @@ export default function SearchBar() {
               key="pick"
               type="datetime-local"
               name="pickUpDate"
-              defaultValue={formatDate(new Date())}
-              className="w-full h-[40px] p-2 bg-white border-[1px] outline-none rounded-md cursor-pointer text-sm hover:bg-slate-100 font-normal"
-              onChange={(e) => setPickUpDate(e.target.value)}
+              defaultValue={formatDate(now)}
+              className={`w-full h-[40px] p-2 bg-white border-[1px] outline-none rounded-md cursor-pointer text-sm hover:bg-slate-100 font-normal ${
+                errorPick ? "border-red-600" : ""
+              }`}
+              onChange={(e) => {
+                const value = e.target.value;
+                setPickUpDate(value);
+                const pick = new Date(value);
+                const today = new Date();
+                if (pick < today) {
+                  setErrorPick(true);
+                } else {
+                  setErrorPick(false);
+                }
+              }}
             />
           </div>
           <div className="flex flex-col justify-center items-center max-md:w-full">
@@ -94,8 +137,20 @@ export default function SearchBar() {
               name="dropOffDate"
               defaultValue={formatDate(tomorrow)}
               key="drop"
-              className="w-full h-[40px] p-2 bg-white border-[1px] outline-none rounded-md cursor-pointer text-sm hover:bg-slate-100 font-normal"
-              onChange={(e) => setDropOffDate(e.target.value)}
+              className={`w-full h-[40px] p-2 bg-white border-[1px] outline-none rounded-md cursor-pointer text-sm hover:bg-slate-100 font-normal ${
+                errorDrop ? "border-red-600" : ""
+              }`}
+              onChange={(e) => {
+                const value = e.target.value;
+                setDropOffDate(value);
+                const pick = new Date(pickUpDate);
+                const drop = new Date(value);
+                if ((drop.getTime() - pick.getTime()) / 86400000 < 1) {
+                  setErrorDrop(true);
+                } else {
+                  setErrorDrop(false);
+                }
+              }}
             />
           </div>
           <Button

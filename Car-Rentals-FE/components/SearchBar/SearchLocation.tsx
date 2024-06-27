@@ -45,9 +45,16 @@ const frameworks = [
 type Props = {
   location: string;
   setLocation: (location: string) => void;
+  isEmpty: boolean;
+  setIsEmpty: (isEmpty: boolean) => void;
 };
 
-export function SearchLocation({ location, setLocation }: Props) {
+export function SearchLocation({
+  location,
+  setLocation,
+  isEmpty,
+  setIsEmpty,
+}: Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -58,7 +65,9 @@ export function SearchLocation({ location, setLocation }: Props) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full h-[40px] justify-between text-sm font-normal"
+          className={`w-full h-[40px] justify-between text-sm font-normal ${
+            isEmpty ? "border-red-500" : ""
+          }`}
         >
           {value
             ? frameworks.find((framework) => framework.value === value)?.label
@@ -83,6 +92,7 @@ export function SearchLocation({ location, setLocation }: Props) {
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                     setLocation(framework.label);
+                    setIsEmpty(false);
                   }}
                 >
                   {framework.label}
