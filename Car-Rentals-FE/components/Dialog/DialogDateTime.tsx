@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -65,8 +66,8 @@ export function DialogDateTime({ pickUpDate, dropOffDate }: Props) {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
-          <CalendarRange className="float-start mr-2" /> {formatDate(pickDate)}{" "}
-          - {formatDate(dropDate)}
+          <CalendarRange className="float-start mr-2" />{" "}
+          {formatDate(pickUpDate)} - {formatDate(dropOffDate)}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

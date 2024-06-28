@@ -20,7 +20,7 @@ export default function SearchResultCard({ car, isfavourite }: Props) {
   };
 
   const imageUrl =
-    car && car.image && car.image.length > 0 ? car.image[0].url : "";
+    car && car.images && car.images.length > 0 ? car.images[0].url : "";
   return (
     <div
       //   href="/#"

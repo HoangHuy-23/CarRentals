@@ -1,14 +1,6 @@
-"use client";
-
-import { CarFilter } from "@/components/Filter/CarFilter";
-import SearchCarResult from "@/components/SearchCarResult/SearchCarResult";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { searchCar } from "../actions/CarAction";
-import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { CalendarRange } from "lucide-react";
 import { DialogLocation } from "@/components/Dialog/DialogLocation";
 import { DialogDateTime } from "@/components/Dialog/DialogDateTime";
+import ListCarAndFilter from "@/components/SearchCarResult/ListCarAndFilter";
 
 export type SearchState = {
   page: number;
@@ -33,61 +25,44 @@ const initialSearchState: SearchState = {
 };
 
 export default function page() {
-  const searchParams = useSearchParams();
-  const location = searchParams.get("location") || "";
+  // const searchParams = useSearchParams();
+  // const location = searchParams.get("location") || "";
 
-  const pickUpDate = new Date(searchParams.get("pickUpDate") as string);
-  const dropOffDate = new Date(searchParams.get("dropOffDate") as string);
+  // const pickUpDate = new Date(searchParams.get("pickUpDate") as string);
+  // const dropOffDate = new Date(searchParams.get("dropOffDate") as string);
 
-  const [searchState, setSearchState] = useState<SearchState>({
-    ...initialSearchState,
-    city: location,
-  });
+  // const [searchState, setSearchState] = useState<SearchState>({
+  //   ...initialSearchState,
+  //   city: location,
+  // });
 
-  const { data, isLoading, isError, refetch } = useQuery({
-    queryKey: ["searchCar", searchState],
-    queryFn: () => searchCar(searchState),
-    enabled: false,
-  });
+  // const { data, isLoading, isError, refetch } = useQuery({
+  //   queryKey: ["searchCar", searchState],
+  //   queryFn: () => searchCar(searchState),
+  //   enabled: false,
+  // });
 
-  useEffect(() => {
-    refetch();
-  }, [searchState, refetch]);
+  // useEffect(() => {
+  //   refetch();
+  // }, [searchState, refetch]);
 
-  const handleFilterChange = (updatedFilters: Partial<SearchState>) => {
-    setSearchState((prevState) => ({
-      ...prevState,
-      ...updatedFilters,
-    }));
-  };
+  // const handleFilterChange = (updatedFilters: Partial<SearchState>) => {
+  //   setSearchState((prevState) => ({
+  //     ...prevState,
+  //     ...updatedFilters,
+  //   }));
+  // };
 
   return (
-    <div className="container mx-auto flex-1 py-10">
-      <div className="flex flex-col sm:flex-row justify-center items-center gap-5 mb-10">
+    <div className="container mx-auto flex-1 py-10 min-h-[80vh]">
+      {/* <div className="flex flex-col sm:flex-row justify-center items-center gap-5 mb-10">
         <DialogLocation
-          filters={searchState}
-          onFilterChange={handleFilterChange}
+          filters={initialSearchState}
+          onFilterChange={() => {}}
         />
-        <DialogDateTime pickUpDate={pickUpDate} dropOffDate={dropOffDate} />
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-5">
-        <div id="filter-list" className="">
-          <CarFilter
-            filters={searchState}
-            onFilterChange={handleFilterChange}
-          />
-        </div>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <SearchCarResult
-            data={data?.data}
-            pagination={data?.pagination}
-            filters={searchState}
-            onFilterChange={handleFilterChange}
-          />
-        )}
-      </div>
+        <DialogDateTime pickUpDate={new Date()} dropOffDate={new Date()} />
+      </div> */}
+      <ListCarAndFilter />
     </div>
   );
 }

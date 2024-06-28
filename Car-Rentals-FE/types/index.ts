@@ -12,7 +12,7 @@ export type Car = {
   price: number;
   address: carAddress;
   terms: string;
-  image: carImage[];
+  images: carImage[];
   numOfTrip: number;
   status: string;
 };
