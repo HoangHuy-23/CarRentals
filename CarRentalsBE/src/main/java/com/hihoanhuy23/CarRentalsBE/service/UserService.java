@@ -35,4 +35,5 @@ public interface UserService {
     public Set<Car> unlikeCar(User user, Car car) throws UserException, CarException;
 
     public CarReview reviewCar(User user, Car car, CreateReviewRequest req) throws UserException, CarException;
+
 }

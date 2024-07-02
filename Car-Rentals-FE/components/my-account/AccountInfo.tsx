@@ -5,9 +5,14 @@ import { Link, Luggage, Pencil, Star } from "lucide-react";
 import { DialogEditAccount } from "../Dialog/DialogEditAccount";
 import DialogEditPhone from "../Dialog/DialogEditPhone";
 import DialogEditEmail from "../Dialog/DialogEditEmail";
+import { UseMutationResult, useMutation } from "@tanstack/react-query";
+import { updateUser } from "@/app/actions/UserAction";
+import { User } from "@/types";
 
 export default function AccountInfo() {
-  const { user } = useAuthContext();
+  const { user, refetch } = useAuthContext();
+  const mutation = useMutation({ mutationFn: updateUser });
+
   return (
     <div className="bg-white rounded-xl flex flex-col px-5 py-5">
       {/* header */}
@@ -16,7 +21,7 @@ export default function AccountInfo() {
           Account Info
           <DialogEditAccount />
         </span>
-        <div className="border rounded-md flex px-4 py-4 items-end">
+        <div className="border rounded-md flex px-4 py-2 items-center">
           <Luggage className="text-blue-500" width={30} height={30} />
           <span className="text-blue-500 font-bold text-xl mx-1">
             {user?.numOfTrip}

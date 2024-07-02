@@ -13,6 +13,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: User | null;
   logout: () => void;
+  refetch: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -69,6 +70,11 @@ const useAuth = () => {
     setUser(null);
   };
 
+  const refetch = async () => {
+    const userLogin = await getUserLogin();
+    setUser(userLogin);
+  };
+
   useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem("jwt");
@@ -90,7 +96,16 @@ const useAuth = () => {
     initializeAuth();
   }, []);
 
-  return { success, isLoading, error, login, isAuthenticated, user, logout };
+  return {
+    success,
+    isLoading,
+    error,
+    login,
+    isAuthenticated,
+    user,
+    logout,
+    refetch,
+  };
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {

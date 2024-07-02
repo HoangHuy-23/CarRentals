@@ -5,6 +5,7 @@ import com.hihoanhuy23.CarRentalsBE.exception.UserException;
 import com.hihoanhuy23.CarRentalsBE.model.Car;
 import com.hihoanhuy23.CarRentalsBE.model.CarReview;
 import com.hihoanhuy23.CarRentalsBE.model.User;
+import com.hihoanhuy23.CarRentalsBE.repository.UserRepository;
 import com.hihoanhuy23.CarRentalsBE.request.CreateCarRequest;
 import com.hihoanhuy23.CarRentalsBE.request.CreateReviewRequest;
 import com.hihoanhuy23.CarRentalsBE.response.ApiResponse;
@@ -24,6 +25,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private CarService carService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<User>> findUserByJwtToken(@RequestHeader("Authorization") String jwt) throws UserException {
@@ -81,5 +84,17 @@ public class UserController {
         Car savedCar = carService.createCar(carReq, user);
         ApiResponse<Car> response = new ApiResponse<>(true, "Car create successfully", savedCar);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update-my-account")
+    public ResponseEntity<ApiResponse<User>> updateUserHandler(@RequestHeader("Authorization") String jwt,@RequestBody User req) throws Exception {
+        User user = userService.findUserProfileByJwt(jwt);
+        user.setDob(req.getDob());
+        user.setGender(req.isGender());
+        user.setPhone(req.getPhone());
+        user.setEmail(req.getEmail());
+        userRepository.save(user);
+        ApiResponse<User> response = new ApiResponse<>(true, "Update successfully", user);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -13,13 +13,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar as CalendarIcon, Pencil } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import React from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "../ui/calendar";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { useAuthContext } from "@/app/contexts/authContext";
+import { useMutation } from "@tanstack/react-query";
+import { updateUser } from "@/app/actions/UserAction";
+import { User } from "@/types";
 
 export function DialogEditAccount() {
-  const [date, setDate] = React.useState<Date>();
+  const { user, refetch } = useAuthContext();
+
+  const [date, setDate] = React.useState<Date | undefined>(user?.dob);
+  const [username, setUsername] = useState(user?.fullName);
+  const [gender, setGender] = useState(user?.gender);
+
+  const mutation = useMutation({ mutationFn: updateUser });
+
+  const handleGenderChange = (value: string) => {
+    setGender(value === "male");
+  };
+
+  const handleSave = () => {};
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -38,8 +55,11 @@ export function DialogEditAccount() {
             </Label>
             <Input
               id="name"
-              defaultValue="Pedro Duarte"
+              defaultValue={username}
               className="col-span-4"
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
             />
           </div>
           <div className="grid grid-cols-6 items-center gap-4">
@@ -74,8 +94,9 @@ export function DialogEditAccount() {
               Gender
             </Label>
             <RadioGroup
-              defaultValue="male"
+              defaultValue={gender ? "male" : "female"}
               className="col-span-4 flex flex-row justify-around"
+              onValueChange={handleGenderChange}
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="male" id="r1" />
@@ -89,7 +110,11 @@ export function DialogEditAccount() {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" className="bg-blue-500 hover:bg-blue-300">
+          <Button
+            type="button"
+            onClick={handleSave}
+            className="bg-blue-500 hover:bg-blue-300"
+          >
             Save changes
           </Button>
         </DialogFooter>
