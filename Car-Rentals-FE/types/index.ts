@@ -12,7 +12,7 @@ export type Car = {
   price: number;
   address: carAddress;
   terms: string;
-  images: carImage[];
+  carImages: carImage[];
   numOfTrip: number;
   status: string;
 };
@@ -26,7 +26,7 @@ export type carAddress = {
 
 export type carImage = {
   id: number;
-  url: string;
+  urlImage: string;
 };
 
 export type User = {

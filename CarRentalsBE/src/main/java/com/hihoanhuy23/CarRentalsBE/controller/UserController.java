@@ -36,19 +36,19 @@ public class UserController {
     }
 
     @GetMapping("/my-car")
-    public ResponseEntity<ApiResponse<Set<Car>>> getMyCar(@RequestHeader("Authorization") String jwt) throws UserException {
+    public ResponseEntity<Set<Car>> getMyCar(@RequestHeader("Authorization") String jwt) throws UserException {
         User user = userService.findUserProfileByJwt(jwt);
         Set<Car> myCars = userService.getAllMyCar(user);
-        ApiResponse<Set<Car>> response = new ApiResponse<>(true, "fetch list your car successfully", myCars);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+//        ApiResponse<Set<Car>> response = new ApiResponse<>(true, "fetch list your car successfully", myCars);
+        return new ResponseEntity<>(myCars, HttpStatus.OK);
     }
 
     @GetMapping("/my-favourite-car")
-    public ResponseEntity<ApiResponse<Set<Car>>> getMyFavouriteCar(@RequestHeader("Authorization") String jwt) throws UserException {
+    public ResponseEntity<Set<Car>> getMyFavouriteCar(@RequestHeader("Authorization") String jwt) throws UserException {
         User user = userService.findUserProfileByJwt(jwt);
         Set<Car> myFavouriteCars = userService.getMyFavouriteCar(user);
-        ApiResponse<Set<Car>> response = new ApiResponse<>(true, "fetch list your favourite car successfully", myFavouriteCars);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+//        ApiResponse<Set<Car>> response = new ApiResponse<>(true, "fetch list your favourite car successfully", myFavouriteCars);
+        return new ResponseEntity<>(myFavouriteCars, HttpStatus.OK);
     }
 
     @PostMapping("/like-car")

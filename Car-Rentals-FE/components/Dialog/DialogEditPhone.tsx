@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,10 +11,38 @@ import {
 import { Button } from "../ui/button";
 import { Pencil } from "lucide-react";
 import { Input } from "../ui/input";
+import { useAuthContext } from "@/app/contexts/authContext";
+import { useUpdateUser } from "@/app/hooks/useUser";
+import { User } from "@/types";
 
 export default function DialogEditPhone() {
+  const { user } = useAuthContext();
+  const mutation = useUpdateUser();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [phone, setPhone] = useState(user?.phone);
+
+  useEffect(() => {
+    if (isOpen) {
+      setPhone(user?.phone);
+    }
+  }, [isOpen, user]);
+
+  const handleSave = () => {
+    if (user && user.id !== undefined) {
+      const req: User = {
+        ...user,
+        phone: user.phone,
+      };
+      mutation.mutate(req);
+      setIsOpen(false);
+    } else {
+      console.error("Phone number update error");
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="link" className="ml-2 px-1 py-1">
           <Pencil width={16} height={16} />
@@ -23,9 +52,20 @@ export default function DialogEditPhone() {
         <DialogHeader>
           <DialogTitle>Edit phone</DialogTitle>
         </DialogHeader>
-        <Input id="name" placeholder="Input phone" className="" />
+        <Input
+          id="name"
+          placeholder="Input phone"
+          className=""
+          onChange={(e) => {
+            setPhone(e.target.value);
+          }}
+        />
         <DialogFooter>
-          <Button type="submit" className="bg-blue-500 hover:bg-blue-300">
+          <Button
+            type="button"
+            onClick={handleSave}
+            className="bg-blue-500 hover:bg-blue-300"
+          >
             Save changes
           </Button>
         </DialogFooter>

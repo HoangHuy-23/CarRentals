@@ -2,43 +2,69 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar as CalendarIcon, Pencil } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import React, { useState } from "react";
-import { cn } from "@/lib/utils";
-import { Calendar } from "../ui/calendar";
+import React, { useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { useAuthContext } from "@/app/contexts/authContext";
-import { useMutation } from "@tanstack/react-query";
-import { updateUser } from "@/app/actions/UserAction";
 import { User } from "@/types";
+import { useUpdateUser } from "@/app/hooks/useUser";
 
 export function DialogEditAccount() {
-  const { user, refetch } = useAuthContext();
+  const { user } = useAuthContext();
+  const mutation = useUpdateUser();
+  const [isOpen, setIsOpen] = useState(false);
+  const [date, setDate] = useState<Date | undefined>(user?.dob);
+  const [username, setUsername] = useState<string | undefined>(
+    user?.fullName || "user"
+  );
+  const [gender, setGender] = useState<boolean | undefined>(user?.gender);
 
-  const [date, setDate] = React.useState<Date | undefined>(user?.dob);
-  const [username, setUsername] = useState(user?.fullName);
-  const [gender, setGender] = useState(user?.gender);
-
-  const mutation = useMutation({ mutationFn: updateUser });
+  useEffect(() => {
+    if (isOpen) {
+      setDate(user?.dob);
+      setUsername(user?.fullName);
+      setGender(user?.gender);
+    }
+  }, [isOpen, user]);
 
   const handleGenderChange = (value: string) => {
     setGender(value === "male");
   };
 
-  const handleSave = () => {};
+  const handleSave = () => {
+    if (user && user.id !== undefined) {
+      const req: User = {
+        ...user,
+        fullName: username || "",
+        dob: date || new Date(),
+        gender: gender || false,
+      };
+      mutation.mutate(req);
+      setIsOpen(false);
+    } else {
+      console.error("User id is undefined");
+    }
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value) {
+      const newDate = new Date(value);
+      setDate(newDate);
+    } else {
+      setDate(undefined);
+    }
+  };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline" className="ml-2 rounded-full px-2 py-2">
           <Pencil width={16} height={16} />
@@ -66,28 +92,13 @@ export function DialogEditAccount() {
             <Label htmlFor="dob" className="text-left col-span-2">
               Date of birth
             </Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "col-span-4 justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : <span>Pick a date</span>}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={setDate}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            <Input
+              type="date"
+              value={date?.toString()}
+              onChange={handleDateChange}
+              defaultValue={date?.toString()}
+              className="col-span-4 block"
+            />
           </div>
           <div className="grid grid-cols-6 items-center gap-4">
             <Label htmlFor="username" className="text-left col-span-2">

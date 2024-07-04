@@ -5,13 +5,21 @@ import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Car } from "@/types";
+import { useRouter } from "next/navigation";
 
 type Props = {
   car: Car;
   isfavourite: boolean;
+  myFavourite: boolean;
 };
 
-export default function SearchResultCard({ car, isfavourite }: Props) {
+export default function SearchResultCard({
+  car,
+  isfavourite,
+  myFavourite,
+}: Props) {
+  const router = useRouter();
+
   const [favourite, setFavourite] = useState<boolean>(false);
 
   const handleFavouriteCar = () => {
@@ -20,7 +28,9 @@ export default function SearchResultCard({ car, isfavourite }: Props) {
   };
 
   const imageUrl =
-    car && car.images && car.images.length > 0 ? car.images[0].url : "";
+    car && car.carImages && car.carImages.length > 0
+      ? car.carImages[0].urlImage
+      : "";
   return (
     <div
       //   href="/#"
@@ -93,7 +103,19 @@ export default function SearchResultCard({ car, isfavourite }: Props) {
           <span className="text-sm">Price for day: </span>
           <span className="text-lg font-bold text-blue-500">{car.price}k</span>
         </div>
-        <Button className="bg-blue-500 hover:bg-blue-300">Detail</Button>
+        {myFavourite && (
+          <Button className="bg-white text-blue-500 border-blue-500 border hover:bg-blue-50">
+            Unlike
+          </Button>
+        )}
+        <Button
+          className="bg-blue-500 hover:bg-blue-300"
+          onClick={() => {
+            router.push(`/car/${car.id}`);
+          }}
+        >
+          Detail
+        </Button>
       </div>
     </div>
   );

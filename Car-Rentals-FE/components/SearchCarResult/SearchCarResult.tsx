@@ -44,7 +44,12 @@ export default function SearchCarResult({
       </div>
 
       {data.map((car) => (
-        <SearchResultCard car={car} isfavourite={false} key={car.id} />
+        <SearchResultCard
+          car={car}
+          isfavourite={false}
+          key={car.id}
+          myFavourite={false}
+        />
       ))}
 
       <PaginationSelector
