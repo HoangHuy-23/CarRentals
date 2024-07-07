@@ -11,36 +11,23 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { formatDate, formatDateToString } from "@/utils";
 import { CalendarRange } from "lucide-react";
 import { useState } from "react";
 
-const formatDate = (date: Date) => {
-  return date.toLocaleString("en-US", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-};
-
-const formatDateToString = (date: Date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-};
-
 type Props = {
   pickUpDate: Date;
+  setPickUpDate: (pickUpDate: Date) => void;
   dropOffDate: Date;
+  setDropOffDate: (dropOffDate: Date) => void;
 };
 
-export function DialogDateTime({ pickUpDate, dropOffDate }: Props) {
+export function DialogDateTime({
+  pickUpDate,
+  setPickUpDate,
+  dropOffDate,
+  setDropOffDate,
+}: Props) {
   const [pickDate, setPickDate] = useState(pickUpDate);
   const [dropDate, setDropDate] = useState(dropOffDate);
 
@@ -60,12 +47,16 @@ export function DialogDateTime({ pickUpDate, dropOffDate }: Props) {
       setErrorDrop(true);
       return;
     }
+    setPickUpDate(pickDate);
+    setDropOffDate(dropDate);
+    localStorage.setItem("pick-up-date-car", formatDateToString(pickDate));
+    localStorage.setItem("drop-off-date-car", formatDateToString(dropDate));
     setOpen(false);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="ghost">
           <CalendarRange className="float-start mr-2" />{" "}
           {formatDate(pickUpDate)} - {formatDate(dropOffDate)}
         </Button>

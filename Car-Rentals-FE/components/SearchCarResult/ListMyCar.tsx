@@ -1,7 +1,7 @@
 "use client";
 
 import { useMyCar } from "@/app/hooks/useUser";
-import SearchResultCard from "./SearchResultCard";
+import SearchResultCard from "./CarResultCard";
 
 export default function ListMyCar() {
   const { data, isLoading, error } = useMyCar();

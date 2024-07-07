@@ -38,7 +38,10 @@ export default function PaginationSelector({
           <PaginationItem key={number}>
             <PaginationLink
               href="#"
-              onClick={() => onPageChange(number)}
+              onClick={(e) => {
+                e.preventDefault;
+                onPageChange(number);
+              }}
               isActive={page === number}
             >
               {number}

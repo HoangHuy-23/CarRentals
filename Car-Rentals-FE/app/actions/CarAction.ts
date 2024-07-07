@@ -1,5 +1,5 @@
 "use server";
-import { CarSearchResponse } from "@/types";
+import { Car, CarSearchResponse, User } from "@/types";
 import { SearchState } from "../search/page";
 
 const API_BASE_URL = "http://localhost:2003";
@@ -27,5 +27,34 @@ export const searchCar = async (
     throw new Error("Failed to get car");
   }
 
+  return response.json();
+};
+
+export const getCarById = async (id: string): Promise<Car> => {
+  const response = await fetch(`${API_BASE_URL}/api/cars/car?carId=${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch car by id");
+  }
+  return response.json();
+};
+
+export const getOwner = async (id: string): Promise<User> => {
+  const response = await fetch(
+    `${API_BASE_URL}/api/cars/car/owner?carId=${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  if (!response.ok) {
+    throw new Error("Failed to fetch car owner by id");
+  }
   return response.json();
 };

@@ -1,6 +1,6 @@
 "use client";
 import { useMyFavouriteCar } from "@/app/hooks/useUser";
-import SearchResultCard from "./SearchResultCard";
+import SearchResultCard from "./CarResultCard";
 
 export default function ListCarFavourite() {
   const { data, isLoading, error } = useMyFavouriteCar();

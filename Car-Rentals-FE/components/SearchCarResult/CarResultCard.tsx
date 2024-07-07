@@ -6,6 +6,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { Car } from "@/types";
 import { useRouter } from "next/navigation";
+import { formatPriceToK } from "@/utils";
 
 type Props = {
   car: Car;
@@ -34,7 +35,7 @@ export default function SearchResultCard({
   return (
     <div
       //   href="/#"
-      className="grid md:grid-cols-[2fr_3fr_1fr] group border-[1px] rounded-md hover:bg-slate-50 relative cursor-pointer"
+      className="grid md:grid-cols-[2fr_3fr_1fr] group border-[1px] rounded-md hover:bg-slate-50 relative"
     >
       <Button
         className="absolute z-10 rounded-full top-2 left-2  p-1 bg-transparent"
@@ -55,7 +56,7 @@ export default function SearchResultCard({
       </AspectRatio>
       <div className="flex flex-col items-start justify-evenly mx-2">
         <h3 className="text-2xl font-bold tracking-tight mb-1">
-          {car.company} {car.model} {car.yearOfProduct}
+          {car.company} {car.model} {car.yearOfProduction}
         </h3>
         <p className="text-sm text-gray-700 font-semibold flex items-center">
           <MapPin className="float-start" width={16} height={16} />
@@ -101,7 +102,9 @@ export default function SearchResultCard({
         <Separator className="md:hidden absolute -top-2" />
         <div className="flex md:flex-col items-center justify-start">
           <span className="text-sm">Price for day: </span>
-          <span className="text-lg font-bold text-blue-500">{car.price}k</span>
+          <span className="text-lg font-bold text-blue-500">
+            {formatPriceToK(car.price)}
+          </span>
         </div>
         {myFavourite && (
           <Button className="bg-white text-blue-500 border-blue-500 border hover:bg-blue-50">

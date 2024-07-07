@@ -21,19 +21,19 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 const frameworks = [
   {
-    value: "next.js",
+    value: "Ha Noi",
     label: "Ha Noi",
   },
   {
-    value: "sveltekit",
+    value: "TP. Ho Chi Minh",
     label: "TP. Ho Chi Minh",
   },
   {
-    value: "nuxt.js",
+    value: "Da Nang",
     label: "Da Nang",
   },
   {
-    value: "remix",
+    value: "Can Tho",
     label: "Can Tho",
   },
   {
@@ -56,7 +56,7 @@ export function SearchLocation({
   setIsEmpty,
 }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(location);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

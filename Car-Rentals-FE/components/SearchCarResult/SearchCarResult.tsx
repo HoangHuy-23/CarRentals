@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import SearchResultInfo from "./SearchResultInfo";
-import SearchResultCard from "./SearchResultCard";
+import SearchResultCard from "./CarResultCard";
 import PaginationSelector from "./PaginationSelector";
 import { Car, CarSearchResponse } from "@/types";
 import { SearchState } from "@/app/search/page";

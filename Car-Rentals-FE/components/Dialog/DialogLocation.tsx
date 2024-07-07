@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { MapPin } from "lucide-react";
 import { SearchLocation } from "../SearchBar/SearchLocation";
 import { useState } from "react";
-import { SearchState } from "@/app/search/page";
+import { SearchState } from "../SearchCarResult/ListCarAndFilter";
 
 type Props = {
   filters: SearchState;
@@ -22,7 +22,7 @@ type Props = {
 
 export function DialogLocation({ filters, onFilterChange }: Props) {
   const [isEmpty, setIsEmpty] = useState(false);
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState(filters.city);
   const [open, setOpen] = useState(false);
 
   const handleSave = () => {
@@ -31,14 +31,15 @@ export function DialogLocation({ filters, onFilterChange }: Props) {
       return;
     }
     setOpen(false);
-    setCity("");
+    setCity(city);
     setIsEmpty(false);
     onFilterChange({ city });
+    localStorage.setItem("location-car", city);
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="ghost">
           <MapPin className="float-start mr-2" /> {filters.city}
         </Button>
       </DialogTrigger>

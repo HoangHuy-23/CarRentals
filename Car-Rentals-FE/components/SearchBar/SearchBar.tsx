@@ -3,16 +3,7 @@ import { useRouter } from "next/navigation";
 import { SearchLocation } from "./SearchLocation";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
-
-const formatDate = (date: Date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-};
+import { formatDateToString } from "@/utils";
 
 let now = new Date();
 let tomorrow = new Date(now);
@@ -34,8 +25,8 @@ export default function SearchBar() {
     now.setHours(now.getHours() + 1);
     tomorrow.setDate(now.getDate() + 1);
     tomorrow.setHours(tomorrow.getHours() + 1);
-    setPickUpDate(formatDate(now));
-    setDropOffDate(formatDate(tomorrow));
+    setPickUpDate(formatDateToString(now));
+    setDropOffDate(formatDateToString(tomorrow));
   }, []);
 
   const revalidateFrom = () => {
@@ -66,6 +57,9 @@ export default function SearchBar() {
           pickUpDate
         )}&dropOffDate=${encodeURIComponent(dropOffDate)}`
       );
+      localStorage.setItem("location-car", location);
+      localStorage.setItem("pick-up-date-car", pickUpDate);
+      localStorage.setItem("drop-off-date-car", dropOffDate);
     }
   };
   return (
@@ -108,7 +102,7 @@ export default function SearchBar() {
               key="pick"
               type="datetime-local"
               name="pickUpDate"
-              defaultValue={formatDate(now)}
+              defaultValue={formatDateToString(now)}
               className={`w-full h-[40px] p-2 bg-white border-[1px] outline-none rounded-md cursor-pointer text-sm hover:bg-slate-100 font-normal ${
                 errorPick ? "border-red-600" : ""
               }`}
@@ -135,7 +129,7 @@ export default function SearchBar() {
             <input
               type="datetime-local"
               name="dropOffDate"
-              defaultValue={formatDate(tomorrow)}
+              defaultValue={formatDateToString(tomorrow)}
               key="drop"
               className={`w-full h-[40px] p-2 bg-white border-[1px] outline-none rounded-md cursor-pointer text-sm hover:bg-slate-100 font-normal ${
                 errorDrop ? "border-red-600" : ""

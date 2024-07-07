@@ -32,10 +32,10 @@ public class CarController {
 
 
     @GetMapping("/car")
-    public ResponseEntity<ApiResponse<Car>> findCarByIdHandler(@RequestParam Long carId) throws CarException {
+    public ResponseEntity<Car> findCarByIdHandler(@RequestParam Long carId) throws CarException {
         Car car = carService.findCarById(carId);
-        ApiResponse<Car> response = new ApiResponse<>(true, "fetch car by id: "+carId+" successfully", car);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+//        ApiResponse<Car> response = new ApiResponse<>(true, "fetch car by id: "+carId+" successfully", car);
+        return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
     @GetMapping("/search")
@@ -66,10 +66,10 @@ public class CarController {
     }
 
     @GetMapping("/car/owner")
-    public ResponseEntity<ApiResponse<User>> getOwner(@RequestParam Long carId) throws CarException {
+    public ResponseEntity<User> getOwner(@RequestParam Long carId) throws CarException {
         User owner = carService.getOwner(carId);
-        ApiResponse<User> response = new ApiResponse<>(true, "fetch owner by carId: "+carId+" successfully", owner);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+//        ApiResponse<User> response = new ApiResponse<>(true, "fetch owner by carId: "+carId+" successfully", owner);
+        return new ResponseEntity<>(owner, HttpStatus.OK);
     }
 
     @GetMapping("car/reviews")
