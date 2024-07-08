@@ -40,7 +40,7 @@ export default function CarInfo({ data, isLoading, isError }: Props) {
             width={20}
             height={20}
           />{" "}
-          {data?.numOfTrip} trips
+          {data?.numOfTrip} chuyến
         </span>
         <Dot />
         <span>
@@ -49,10 +49,10 @@ export default function CarInfo({ data, isLoading, isError }: Props) {
       </div>
       <div id="card-content" className="flex gap-2 my-2">
         <div className="bg-blue-200 rounded-full flex items-center justify-center text-sm h-6 p-1">
-          Automatic
+          Số tự động
         </div>
         <span className="bg-blue-200 rounded-full flex items-center justify-center text-sm h-6 p-1">
-          Free delivery
+          Miễn phí giao xe
         </span>
       </div>
     </div>

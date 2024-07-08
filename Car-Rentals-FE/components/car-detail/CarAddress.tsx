@@ -10,7 +10,7 @@ type Props = {
 export default function CarAddress({ data, isLoading, isError }: Props) {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold">Address</h1>
+      <h1 className="text-3xl font-semibold">Vị trí xe</h1>
       <div className="flex justify-between">
         <div className="flex gap-2">
           <MapPin />
@@ -20,12 +20,12 @@ export default function CarAddress({ data, isLoading, isError }: Props) {
         </div>
         <div className="flex gap-2">
           <Map />
-          <span>View map</span>
+          <span>Xem bản đồ</span>
           <ChevronRight />
         </div>
       </div>
       <p className="text-sm text-gray-400">
-        Specific address will be displayed after deposit
+        Địa chỉ cụ thể sẽ được hiển thị sau khi đặt cọc
       </p>
     </div>
   );

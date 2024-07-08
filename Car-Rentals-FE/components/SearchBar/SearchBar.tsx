@@ -3,18 +3,20 @@ import { useRouter } from "next/navigation";
 import { SearchLocation } from "./SearchLocation";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
-import { formatDateToString } from "@/utils";
-
-let now = new Date();
-let tomorrow = new Date(now);
-tomorrow.setDate(now.getDate() + 1);
+import { addHoursAndRoundMinutes, formatDateToString } from "@/utils";
+import { SearchDate } from "./SearchDate";
 
 export default function SearchBar() {
+  let now = new Date();
+  now = addHoursAndRoundMinutes(now, 2);
+  let tomorrow = new Date(now);
+  tomorrow.setDate(now.getDate() + 1);
+
   const router = useRouter();
 
   const [location, setLocation] = useState("");
-  const [pickUpDate, setPickUpDate] = useState("");
-  const [dropOffDate, setDropOffDate] = useState("");
+  const [pickUpDate, setPickUpDate] = useState(now);
+  const [dropOffDate, setDropOffDate] = useState(tomorrow);
 
   const [errorLocation, setErrorLocation] = useState(false);
   const [errorPick, setErrorPick] = useState(false);
@@ -22,11 +24,10 @@ export default function SearchBar() {
 
   useEffect(() => {
     now = new Date();
-    now.setHours(now.getHours() + 1);
+    now = addHoursAndRoundMinutes(now, 2);
     tomorrow.setDate(now.getDate() + 1);
-    tomorrow.setHours(tomorrow.getHours() + 1);
-    setPickUpDate(formatDateToString(now));
-    setDropOffDate(formatDateToString(tomorrow));
+    setPickUpDate(now);
+    setDropOffDate(tomorrow);
   }, []);
 
   const revalidateFrom = () => {
@@ -54,12 +55,15 @@ export default function SearchBar() {
         `/search?location=${encodeURIComponent(
           location
         )}&pickUpDate=${encodeURIComponent(
-          pickUpDate
-        )}&dropOffDate=${encodeURIComponent(dropOffDate)}`
+          formatDateToString(pickUpDate)
+        )}&dropOffDate=${encodeURIComponent(formatDateToString(dropOffDate))}`
       );
       localStorage.setItem("location-car", location);
-      localStorage.setItem("pick-up-date-car", pickUpDate);
-      localStorage.setItem("drop-off-date-car", dropOffDate);
+      localStorage.setItem("pick-up-date-car", formatDateToString(pickUpDate));
+      localStorage.setItem(
+        "drop-off-date-car",
+        formatDateToString(dropOffDate)
+      );
     }
   };
   return (
@@ -98,25 +102,12 @@ export default function SearchBar() {
             >
               Pick-up Date
             </label>
-            <input
-              key="pick"
-              type="datetime-local"
-              name="pickUpDate"
-              defaultValue={formatDateToString(now)}
-              className={`w-full h-[40px] p-2 bg-white border-[1px] outline-none rounded-md cursor-pointer text-sm hover:bg-slate-100 font-normal ${
-                errorPick ? "border-red-600" : ""
-              }`}
-              onChange={(e) => {
-                const value = e.target.value;
-                setPickUpDate(value);
-                const pick = new Date(value);
-                const today = new Date();
-                if (pick < today) {
-                  setErrorPick(true);
-                } else {
-                  setErrorPick(false);
-                }
-              }}
+            <SearchDate
+              pickUpDate={pickUpDate}
+              setPickUpDate={setPickUpDate}
+              dropOffDate={dropOffDate}
+              setDropOffDate={setDropOffDate}
+              isPick={true}
             />
           </div>
           <div className="flex flex-col justify-center items-center max-md:w-full">
@@ -126,25 +117,12 @@ export default function SearchBar() {
             >
               Drop-off Date
             </label>
-            <input
-              type="datetime-local"
-              name="dropOffDate"
-              defaultValue={formatDateToString(tomorrow)}
-              key="drop"
-              className={`w-full h-[40px] p-2 bg-white border-[1px] outline-none rounded-md cursor-pointer text-sm hover:bg-slate-100 font-normal ${
-                errorDrop ? "border-red-600" : ""
-              }`}
-              onChange={(e) => {
-                const value = e.target.value;
-                setDropOffDate(value);
-                const pick = new Date(pickUpDate);
-                const drop = new Date(value);
-                if ((drop.getTime() - pick.getTime()) / 86400000 < 1) {
-                  setErrorDrop(true);
-                } else {
-                  setErrorDrop(false);
-                }
-              }}
+            <SearchDate
+              pickUpDate={pickUpDate}
+              setPickUpDate={setPickUpDate}
+              dropOffDate={dropOffDate}
+              setDropOffDate={setDropOffDate}
+              isPick={false}
             />
           </div>
           <Button

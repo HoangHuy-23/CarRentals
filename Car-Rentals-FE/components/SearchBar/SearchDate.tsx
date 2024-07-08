@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+"use client";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,36 +7,36 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { ArrowDown, ArrowRight, Pencil } from "lucide-react";
-import { Input } from "../ui/input";
-import { Separator } from "../ui/separator";
-import { Calendar } from "../ui/calendar";
-import { DateRange } from "react-day-picker";
-import { addDays } from "date-fns";
-import { SelectTime } from "./SelectTime";
+} from "@/components/ui/dialog";
 import {
   calculateDaysDifference,
+  formatDate,
   formatDateToString,
   formatDateToStringType1,
-  formatDayToString,
   formatTimeToString,
   updateDateWithTime,
 } from "@/utils";
+import { ArrowDown, ArrowRight, CalendarRange } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Calendar } from "../ui/calendar";
+
+import { DateRange } from "react-day-picker";
+import { SelectTime } from "../Dialog/SelectTime";
 
 type Props = {
   pickUpDate: Date;
   setPickUpDate: (pickUpDate: Date) => void;
   dropOffDate: Date;
   setDropOffDate: (dropOffDate: Date) => void;
+  isPick: boolean;
 };
 
-export default function DialogDateTimeRentBox({
+export function SearchDate({
   pickUpDate,
   setPickUpDate,
   dropOffDate,
   setDropOffDate,
+  isPick,
 }: Props) {
   const [date, setDate] = useState<DateRange | undefined>({
     from: pickUpDate,
@@ -86,27 +87,17 @@ export default function DialogDateTimeRentBox({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="border rounded-md flex cursor-pointer bg-white">
-          <div className="flex flex-col p-3 w-full">
-            <p className="text-start">Nhận xe</p>
-            <div className="flex justify-between">
-              <span>{formatDayToString(pickUpDate || new Date())}</span>
-              <span>{formatTimeToString(pickUpDate || new Date())}</span>
-            </div>
-          </div>
-          <Separator orientation="vertical" className="" />
-          <div className="flex flex-col p-3 w-full">
-            <p className="text-start">Trả xe</p>
-            <div className="flex justify-between">
-              <span>{formatDayToString(dropOffDate || new Date())}</span>
-              <span>{formatTimeToString(dropOffDate || new Date())}</span>
-            </div>
-          </div>
-        </button>
+        <Button
+          variant="outline"
+          className="w-full h-[40px] justify-between text-sm font-normal"
+        >
+          {isPick ? formatDate(pickUpDate) : formatDate(dropOffDate)}
+          <CalendarRange className="float-start ml-2" width={14} height={14} />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[535px]">
         <DialogHeader>
-          <DialogTitle className="text-center">Thời gian</DialogTitle>
+          <DialogTitle className="text-center">Time</DialogTitle>
         </DialogHeader>
         <div id="date" className="flex items-center justify-center">
           <Calendar
@@ -133,14 +124,14 @@ export default function DialogDateTimeRentBox({
               {formatDateToStringType1(date?.from || new Date())} -{" "}
               {formatDateToStringType1(date?.to || new Date())}
             </span>
-            <span>Số ngày thuê: {daysDifference} ngày</span>
+            <span>So ngay thue: {daysDifference} ngay</span>
           </div>
           <Button
             type="button"
             className="bg-blue-500 hover:bg-blue-300"
             onClick={handleSave}
           >
-            Lưu
+            Save changes
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -9,7 +9,7 @@ type Props = {
 export default function CarDescription({ data, isLoading, isError }: Props) {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold">Description</h1>
+      <h1 className="text-3xl font-semibold">Mô tả</h1>
       <div>
         <p>{data?.description}</p>
       </div>

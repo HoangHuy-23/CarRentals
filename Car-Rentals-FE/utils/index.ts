@@ -66,6 +66,55 @@ export const calculatorInsurance = (num: number) => {
   return (num * 0.1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
-export const calculatorSumPrice = (num: number) => {
-  return (num + num * 0.1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+export const calculatorSumPrice = (price: number, day: number) => {
+  return ((price + price * 0.1) * day)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
+
+export function updateDateWithTime(date: Date, timeString: string) {
+  // Parse the time string to get hours and minutes
+  const [hours, minutes] = timeString.split(":").map(Number);
+
+  // Update the date object with the new time
+  date.setHours(hours);
+  date.setMinutes(minutes);
+
+  return date;
+}
+
+export function addHoursAndRoundMinutes(date: Date, hoursToAdd: number) {
+  // Clone the date to avoid mutating the original date
+  const newDate = new Date(date.getTime());
+
+  // Add the hours
+  newDate.setHours(newDate.getHours() + hoursToAdd);
+
+  // Round the minutes to the nearest 00 or 30
+  const minutes = newDate.getMinutes();
+  if (minutes < 30) {
+    newDate.setMinutes(0, 0, 0); // Set minutes to 00
+  } else {
+    newDate.setMinutes(30, 0, 0); // Set minutes to 30
+  }
+
+  return newDate;
+}
+
+export function calculateDaysDifference(date1: Date, date2: Date): number {
+  // Ensure date1 is earlier than date2
+  if (date1 > date2) {
+    [date1, date2] = [date2, date1];
+  }
+
+  // Calculate the difference in milliseconds
+  const diffInMilliseconds = date2.getTime() - date1.getTime();
+
+  // Convert milliseconds to hours
+  const diffInHours = diffInMilliseconds / (1000 * 60 * 60);
+
+  // Convert hours to days, rounding up to the nearest whole number
+  const diffInDays = Math.ceil(diffInHours / 24);
+
+  return diffInDays;
+}

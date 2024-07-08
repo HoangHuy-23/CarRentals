@@ -46,7 +46,7 @@ export default function page({ params }: { params: { id: string } }) {
             router.back();
           }}
         >
-          <ChevronLeft /> Back
+          <ChevronLeft /> Trở về
         </Button>
         <CarImage data={data} isLoading={isLoading} isError={isError} />
         <div className="grid lg:grid-cols-[4fr_2fr] grid-cols-1 mb-8 mt-4 gap-4">

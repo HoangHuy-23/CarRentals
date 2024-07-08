@@ -1,4 +1,4 @@
-import * as React from "react";
+"use client";
 
 import {
   Select,
@@ -9,6 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { formatTimeToString } from "@/utils";
+import { useState } from "react";
 
 const generateTimeOptions = () => {
   const times = [];
@@ -36,16 +38,18 @@ const getTimeString = (date: Date) => {
 };
 
 type Props = {
-  date: Date;
-  setDate: (date: Date) => void;
+  time: string;
+  setTime: (time: string) => void;
 };
 
-export function SelectTime({ date }: Props) {
+export function SelectTime({ time, setTime }: Props) {
   return (
     <Select
       defaultValue="00:00"
-      value={getTimeString(date)}
-      onValueChange={() => {}}
+      value={time}
+      onValueChange={(e) => {
+        setTime(e);
+      }}
     >
       <SelectTrigger className="w-[215px]">
         <SelectValue placeholder="Select a time" />

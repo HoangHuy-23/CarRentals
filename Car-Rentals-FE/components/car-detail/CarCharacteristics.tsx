@@ -20,20 +20,20 @@ export default function CarCharacteristics({
 }: Props) {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold">Characteristics</h1>
+      <h1 className="text-3xl font-semibold">Đặc điểm</h1>
       <div className="flex justify-between">
         <div className="flex gap-4 items-center">
           <Image src={seat} alt="" width={40} height={40} />
           <div className="flex flex-col">
-            <span>Seats</span>
-            <span>{data?.seats} seats</span>
+            <span>Số ghế</span>
+            <span>{data?.seats} chỗ</span>
           </div>
         </div>
 
         <div className="flex gap-4 items-center">
           <Image src={transmission} alt="" width={40} height={40} />
           <div className="flex flex-col">
-            <span>Transmission</span>
+            <span>Truyền động</span>
             <span>{data?.transmission}</span>
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function CarCharacteristics({
         <div className="flex gap-4 items-center">
           <Image src={fuel} alt="" width={40} height={40} />
           <div className="flex flex-col">
-            <span>Fuel</span>
+            <span>Nhiên liệu</span>
             <span>{data?.fuel}</span>
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function CarCharacteristics({
         <div className="flex gap-4 items-center">
           <Image src={consumption} alt="" width={40} height={40} />
           <div className="flex flex-col">
-            <span>Consumption</span>
+            <span>NL tiêu hao</span>
             <span>{data?.fuelConsumption} lit/100km</span>
           </div>
         </div>
