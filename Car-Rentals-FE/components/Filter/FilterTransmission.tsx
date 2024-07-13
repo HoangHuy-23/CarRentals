@@ -6,11 +6,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 const transmissions = [
   {
     id: "MANUAL",
-    name: "Manual",
+    name: "Số sàn",
   },
   {
     id: "AUTOMATIC",
-    name: "Automatic",
+    name: "Số tự động",
   },
 ];
 
@@ -30,7 +30,7 @@ export function FilterTransmission({ transmission, setTransmission }: Props) {
     >
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="all" id="all" />
-        <Label htmlFor="all">All</Label>
+        <Label htmlFor="all">Tất cả</Label>
       </div>
       {transmissions.map((transmission) => (
         <div className="flex items-center space-x-2" key={transmission.id}>

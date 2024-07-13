@@ -18,6 +18,17 @@ export default function CarCharacteristics({
   isLoading,
   isError,
 }: Props) {
+  const getFuel = () => {
+    switch (data?.fuel) {
+      case "GASOLINE":
+        return "Xăng";
+      case "DIESEL":
+        return "Dầu";
+      default:
+        return "Điện";
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-semibold">Đặc điểm</h1>
@@ -34,7 +45,9 @@ export default function CarCharacteristics({
           <Image src={transmission} alt="" width={40} height={40} />
           <div className="flex flex-col">
             <span>Truyền động</span>
-            <span>{data?.transmission}</span>
+            <span>
+              {data?.transmission === "MANUAL" ? "Số sàn" : "Số tự động"}
+            </span>
           </div>
         </div>
 
@@ -42,7 +55,7 @@ export default function CarCharacteristics({
           <Image src={fuel} alt="" width={40} height={40} />
           <div className="flex flex-col">
             <span>Nhiên liệu</span>
-            <span>{data?.fuel}</span>
+            <span>{getFuel()}</span>
           </div>
         </div>
 
@@ -50,7 +63,11 @@ export default function CarCharacteristics({
           <Image src={consumption} alt="" width={40} height={40} />
           <div className="flex flex-col">
             <span>NL tiêu hao</span>
-            <span>{data?.fuelConsumption} lit/100km</span>
+            {data?.fuel === "ELECTRIC" ? (
+              <span>{data?.fuelConsumption} km/1 lần sạc</span>
+            ) : (
+              <span>{data?.fuelConsumption} lit/100km</span>
+            )}
           </div>
         </div>
       </div>

@@ -66,7 +66,7 @@ const useAuth = () => {
 
   const logout = () => {
     setAuthenticated(false);
-    localStorage.removeItem("jwt");
+    localStorage.clear();
     setUser(null);
   };
 

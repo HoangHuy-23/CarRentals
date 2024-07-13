@@ -13,7 +13,10 @@ export type Car = {
   address: carAddress;
   terms: string;
   carImages: carImage[];
+  ratingScores: number;
   numOfTrip: number;
+  mortgage: boolean;
+  deliveryToCusLocation: boolean;
   status: string;
 };
 

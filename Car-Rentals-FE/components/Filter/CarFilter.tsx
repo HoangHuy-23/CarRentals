@@ -14,7 +14,7 @@ import FilterFuel from "./FilterFuel";
 import FilterSeats from "./FilterSeats";
 import { FilterPrice } from "./FilterPrice";
 import { useEffect, useState } from "react";
-import { SearchState } from "@/app/search/page";
+import { SearchState } from "../SearchCarResult/ListCarAndFilter";
 
 interface CarFilterProps {
   filters: SearchState;
@@ -28,7 +28,7 @@ export function CarFilter({ filters, onFilterChange }: CarFilterProps) {
       automaker: "all",
       fuel: "all",
       seat: "all",
-      price: 3000,
+      price: 3000000,
       sort: "price_low",
     });
   };
@@ -40,13 +40,13 @@ export function CarFilter({ filters, onFilterChange }: CarFilterProps) {
           type="reset"
           onClick={handleResetAll}
         >
-          Reset all
+          Đặt lại
         </Button>
       </div>
 
       <Accordion type="multiple" className="w-full">
         <AccordionItem value="item-1">
-          <AccordionTrigger>Transmission</AccordionTrigger>
+          <AccordionTrigger>Truyền động</AccordionTrigger>
           <AccordionContent>
             <FilterTransmission
               transmission={filters.transmission}
@@ -57,7 +57,7 @@ export function CarFilter({ filters, onFilterChange }: CarFilterProps) {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>Automaker</AccordionTrigger>
+          <AccordionTrigger>Hãng xe</AccordionTrigger>
           <AccordionContent>
             <FilterAutomaker
               automaker={filters.automaker}
@@ -66,7 +66,7 @@ export function CarFilter({ filters, onFilterChange }: CarFilterProps) {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
-          <AccordionTrigger>Fuel</AccordionTrigger>
+          <AccordionTrigger>Nhiên liệu</AccordionTrigger>
           <AccordionContent>
             <FilterFuel
               fuel={filters.fuel}
@@ -75,7 +75,7 @@ export function CarFilter({ filters, onFilterChange }: CarFilterProps) {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-4">
-          <AccordionTrigger>Number of seats</AccordionTrigger>
+          <AccordionTrigger>Số chỗ</AccordionTrigger>
           <AccordionContent>
             <FilterSeats
               seat={filters.seat}
@@ -84,7 +84,7 @@ export function CarFilter({ filters, onFilterChange }: CarFilterProps) {
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-5">
-          <AccordionTrigger>Price</AccordionTrigger>
+          <AccordionTrigger>Giá</AccordionTrigger>
           <AccordionContent>
             <FilterPrice
               price={filters.price}

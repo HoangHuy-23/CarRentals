@@ -17,11 +17,11 @@ export default function Home() {
             <Image src={landingImage} alt="" className="rounded-xl" />
             <div className="flex flex-col items-center justify-center gap-4 text-center">
               <span className="font-bold text-3xl tracking-tighter">
-                Car rental even faster!
+                Thuê xe thậm chí còn nhanh hơn!
               </span>
               <span>
-                Download the CarRentals App for faster ordering and personalized
-                recommendations
+                Tải xuống ứng dụng CarRentals để đặt hàng nhanh hơn và đề xuất
+                được cá nhân hóa
               </span>
               <Image src={appDownloadImage} alt="" />
             </div>

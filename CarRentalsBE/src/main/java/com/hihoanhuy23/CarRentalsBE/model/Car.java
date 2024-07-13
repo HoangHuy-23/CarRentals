@@ -57,6 +57,9 @@ public class Car {
 	private AuthenticationStatus status;
 	@Column(name = "rating_scores")
 	private double ratingScores;
+	private boolean mortgage;
+	@Column(name = "delivery_to_cus_location")
+	private boolean deliveryToCusLocation;
 	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "owner_id")

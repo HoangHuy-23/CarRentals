@@ -31,7 +31,7 @@ export default function CarInfo({ data, isLoading, isError }: Props) {
             width={20}
             height={20}
           />
-          5.0
+          {data?.ratingScores}
         </span>
         <Dot />
         <span className="text-sm flex justify-center items-center">
@@ -48,12 +48,19 @@ export default function CarInfo({ data, isLoading, isError }: Props) {
         </span>
       </div>
       <div id="card-content" className="flex gap-2 my-2">
-        <div className="bg-blue-200 rounded-full flex items-center justify-center text-sm h-6 p-1">
-          Số tự động
+        <div className="bg-green-100 rounded-full flex items-center justify-center text-sm h-6 px-2">
+          {data?.transmission === "MANUAL" ? "Số sàn" : "Số tự động"}
         </div>
-        <span className="bg-blue-200 rounded-full flex items-center justify-center text-sm h-6 p-1">
-          Miễn phí giao xe
-        </span>
+        {data?.deliveryToCusLocation && (
+          <span className="bg-blue-100 rounded-full flex items-center justify-center text-sm h-6 px-2">
+            Giao xe tận nơi
+          </span>
+        )}
+        {data?.mortgage && (
+          <span className="bg-orange-100 rounded-full flex items-center justify-center text-sm h-6 px-2">
+            Miễn thế chấp
+          </span>
+        )}
       </div>
     </div>
   );

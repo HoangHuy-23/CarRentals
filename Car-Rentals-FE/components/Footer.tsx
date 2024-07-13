@@ -8,8 +8,8 @@ export default function Footer() {
           CarRentals.com
         </span>
         <span className="text-white font-bold tracking-tighter flex gap-4">
-          <span>Privacy Policy</span>
-          <span>Terms of Service</span>
+          <span>Chính sách bảo mật</span>
+          <span>Điều khoản dịch vụ</span>
         </span>
       </div>
     </div>

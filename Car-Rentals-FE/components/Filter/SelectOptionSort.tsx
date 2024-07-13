@@ -29,9 +29,9 @@ export function SelectOptionSort({ sort, setSort }: Props) {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Sort by</SelectLabel>
-          <SelectItem value="price_low">Price Low</SelectItem>
-          <SelectItem value="price_high">Price High</SelectItem>
+          <SelectLabel>Sắp xếp theo</SelectLabel>
+          <SelectItem value="price_low">Giá tăng dần</SelectItem>
+          <SelectItem value="price_high">Giá giảm dần</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>

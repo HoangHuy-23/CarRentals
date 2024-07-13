@@ -3,6 +3,7 @@ import { useOwner } from "@/app/hooks/useCar";
 import { AvatarIcon } from "@radix-ui/react-icons";
 import { Dot, Luggage, Star } from "lucide-react";
 import React from "react";
+import Avatar from "../Avatar";
 
 type Props = {
   carId: string;
@@ -14,10 +15,10 @@ export default function CarOwner({ carId }: Props) {
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-semibold">Chủ xe</h1>
       <div className="flex justify-between">
-        <div className="flex gap-2">
-          <AvatarIcon width={50} height={50} />
-          <div>
-            <h1>{data?.fullName}</h1>
+        <div className="flex gap-2 justify-center items-center">
+          <Avatar data={data} big={false} />
+          <div className="">
+            <h1 className="text-xl font-semibold">{data?.fullName}</h1>
             <div className="flex">
               <span className="text-sm flex justify-center items-center">
                 <Star

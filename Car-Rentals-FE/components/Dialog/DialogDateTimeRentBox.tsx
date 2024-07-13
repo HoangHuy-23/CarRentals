@@ -25,25 +25,31 @@ import {
 } from "@/utils";
 
 type Props = {
-  pickUpDate: Date;
   setPickUpDate: (pickUpDate: Date) => void;
-  dropOffDate: Date;
   setDropOffDate: (dropOffDate: Date) => void;
 };
 
 export default function DialogDateTimeRentBox({
-  pickUpDate,
   setPickUpDate,
-  dropOffDate,
   setDropOffDate,
 }: Props) {
+  const getStoredDate = (key: string) => {
+    const dateStr = localStorage.getItem(key);
+    return dateStr ? new Date(dateStr) : new Date();
+  };
+  const pickUpDate = new Date(getStoredDate("pick-up-date-car"));
+  const dropOffDate = new Date(getStoredDate("drop-off-date-car"));
   const [date, setDate] = useState<DateRange | undefined>({
     from: pickUpDate,
     to: dropOffDate,
   });
 
-  const [startTime, setStartTime] = useState(formatTimeToString(pickUpDate));
-  const [endTime, setEndTime] = useState(formatTimeToString(dropOffDate));
+  const [startTime, setStartTime] = useState<string>(
+    formatTimeToString(pickUpDate)
+  );
+  const [endTime, setEndTime] = useState<string>(
+    formatTimeToString(dropOffDate)
+  );
 
   const [daysDifference, setDaysDifference] = useState(
     calculateDaysDifference(pickUpDate, dropOffDate)
@@ -66,8 +72,9 @@ export default function DialogDateTimeRentBox({
   const handleSave = () => {
     const today = new Date();
     if (date?.from && date?.to) {
-      updateDateWithTime(date.from, startTime);
-      updateDateWithTime(date.to, endTime);
+      const pick = updateDateWithTime(date.from, startTime);
+      const drop = updateDateWithTime(date.to, endTime);
+      setDate({ from: pick, to: drop });
       if (date.from < today) {
         setErrorPick(true);
         return;
@@ -76,8 +83,8 @@ export default function DialogDateTimeRentBox({
         setErrorDrop(true);
         return;
       }
-      setPickUpDate(date.from);
-      setDropOffDate(date.to);
+      setPickUpDate(pick);
+      setDropOffDate(drop);
       localStorage.setItem("pick-up-date-car", formatDateToString(date.from));
       localStorage.setItem("drop-off-date-car", formatDateToString(date.to));
       setOpen(false);
@@ -86,7 +93,7 @@ export default function DialogDateTimeRentBox({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="border rounded-md flex cursor-pointer bg-white">
+        <div className="border rounded-md flex cursor-pointer bg-white">
           <div className="flex flex-col p-3 w-full">
             <p className="text-start">Nhận xe</p>
             <div className="flex justify-between">
@@ -102,7 +109,7 @@ export default function DialogDateTimeRentBox({
               <span>{formatTimeToString(dropOffDate || new Date())}</span>
             </div>
           </div>
-        </button>
+        </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[535px]">
         <DialogHeader>

@@ -4,8 +4,9 @@ import SearchResultInfo from "./SearchResultInfo";
 import SearchResultCard from "./CarResultCard";
 import PaginationSelector from "./PaginationSelector";
 import { Car, CarSearchResponse } from "@/types";
-import { SearchState } from "@/app/search/page";
+
 import { SelectOptionSort } from "../Filter/SelectOptionSort";
+import { SearchState } from "./ListCarAndFilter";
 
 type Props = {
   data?: Car[];
@@ -35,7 +36,7 @@ export default function SearchCarResult({
     <div id="main-content" className="flex flex-col gap-5">
       <div className="flex justify-between flex-col gap-3 sm:flex-row">
         <span className="text-xl font-semibold">
-          Founded {pagination.total} cars in {filters.city}
+          Tìm được {pagination.total} xe ở {filters.city}
         </span>
         <SelectOptionSort
           sort={filters.sort}

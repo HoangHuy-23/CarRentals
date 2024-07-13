@@ -5,12 +5,16 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const fuels = [
   {
-    id: "GAS",
-    name: "Gas",
+    id: "GASOLINE",
+    name: "Xăng",
+  },
+  {
+    id: "DIESEL",
+    name: "Dầu",
   },
   {
     id: "ELECTRIC",
-    name: "Electric",
+    name: "Điện",
   },
 ];
 
@@ -30,7 +34,7 @@ export default function FilterFuel({ fuel, setFuel }: Props) {
     >
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="all" id="all" />
-        <Label htmlFor="all">All</Label>
+        <Label htmlFor="all">Tất cả</Label>
       </div>
       {fuels.map((fuel) => (
         <div className="flex items-center space-x-2" key={fuel.id}>

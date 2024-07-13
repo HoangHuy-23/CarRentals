@@ -27,7 +27,7 @@ export function FilterPrice({ price, setPrice }: Props) {
         }}
       />
       <span className="border rounded-sm px-2 py-2">
-        From under {formatPriceToK(value)}/day
+        Từ dưới {formatPriceToK(value)}/ngày
       </span>
     </div>
   );

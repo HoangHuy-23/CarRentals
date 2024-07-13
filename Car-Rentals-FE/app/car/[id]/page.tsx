@@ -68,7 +68,7 @@ export default function page({ params }: { params: { id: string } }) {
             <Separator />
             <CarRentalDocuments />
             <Separator />
-            <Collateral />
+            <Collateral data={data} isLoading={isLoading} isError={isError} />
             <Separator />
             <CarAddress data={data} isLoading={isLoading} isError={isError} />
             <Separator />

@@ -8,6 +8,7 @@ import DialogEditEmail from "../Dialog/DialogEditEmail";
 import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import { updateUser } from "@/app/actions/UserAction";
 import { User } from "@/types";
+import Avatar from "../Avatar";
 
 export default function AccountInfo() {
   const { user, refetch } = useAuthContext();
@@ -18,7 +19,7 @@ export default function AccountInfo() {
       {/* header */}
       <div className="flex justify-between items-center">
         <span className="text-2xl font-semibold flex justify-center items-center">
-          Account Info
+          Thông tin tài khoản
           <DialogEditAccount />
         </span>
         <div className="border rounded-md flex px-4 py-2 items-center">
@@ -26,23 +27,24 @@ export default function AccountInfo() {
           <span className="text-blue-500 font-bold text-xl mx-1">
             {user?.numOfTrip}
           </span>
-          <span>trip</span>
+          <span>chuyến</span>
         </div>
       </div>
       {/* content */}
       <div className="flex flex-col sm:flex-row gap-8 py-4">
         {/* left */}
         <div className="flex flex-col justify-between items-center w-1/3">
-          <div className="bg-blue-300 text-7xl px-8 py-6 text-white rounded-full border">
-            H
-          </div>
+          {/* <div className="bg-blue-300 text-xl w-32 h-32 text-white rounded-full border relative flex justify-center items-center">
+            <span className="absolute">H</span>
+          </div> */}
+          <Avatar data={user || undefined} big={true} />
           <h1 className="font-semibold">{user?.fullName}</h1>
           <div className="text-sm text-gray-500">
-            Create at: {user?.createAt.toString()}
+            Tham gia: {user?.createAt.toString()}
           </div>
           <div className="flex px-2 py-2 border rounded-md justify-center">
+            <span className="mx-2 font-bold">{user?.ratingScores}</span>
             <Star className="text-yellow-500" />
-            <span className="mx-2 font-bold">{user?.ratingScores} start</span>
           </div>
         </div>
         {/* right */}
@@ -50,20 +52,20 @@ export default function AccountInfo() {
           {/* dob */}
           <div className="border rounded-md bg-neutral-100 flex flex-col px-4 gap-4 py-4">
             <div className="flex justify-between">
-              <p className="text-sm">Date of birth</p>
+              <p className="text-sm">Ngày sinh</p>
               <p>{`${
                 user?.dob === null ? "--/--/--" : user?.dob.toString()
               }`}</p>
             </div>
             <div className="flex justify-between">
-              <p className="text-sm">Gender</p>
-              <p>{`${user?.gender ? "Male" : "Female"}`}</p>
+              <p className="text-sm">Giới tính</p>
+              <p>{`${user?.gender ? "Nam" : "Nữ"}`}</p>
             </div>
           </div>
           {/* contact */}
           <div className="flex flex-col gap-4 py-4">
             <div className="flex justify-between">
-              <p className="text-sm">Phone</p>
+              <p className="text-sm">Số điện thoại</p>
               <div className="flex justify-center items-center">
                 <p>{`${user?.phone === null ? "--/--/--" : user?.phone}`}</p>
                 <DialogEditPhone />

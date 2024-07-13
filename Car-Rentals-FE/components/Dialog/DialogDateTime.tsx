@@ -29,12 +29,13 @@ type Props = {
   setDropOffDate: (dropOffDate: Date) => void;
 };
 
-export function DialogDateTime({
-  pickUpDate,
-  setPickUpDate,
-  dropOffDate,
-  setDropOffDate,
-}: Props) {
+export function DialogDateTime({ setPickUpDate, setDropOffDate }: Props) {
+  const getStoredDate = (key: string) => {
+    const dateStr = localStorage.getItem(key);
+    return dateStr ? new Date(dateStr) : new Date();
+  };
+  const pickUpDate = new Date(getStoredDate("pick-up-date-car"));
+  const dropOffDate = new Date(getStoredDate("drop-off-date-car"));
   const [date, setDate] = useState<DateRange | undefined>({
     from: pickUpDate,
     to: dropOffDate,

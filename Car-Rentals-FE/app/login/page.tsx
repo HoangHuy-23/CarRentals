@@ -34,9 +34,9 @@ export default function page() {
     <div className="h-[80vh] flex items-center justify-center">
       <Card className="w-[350px]">
         <CardHeader>
-          <CardTitle>Sign in</CardTitle>
+          <CardTitle>Đăng nhập</CardTitle>
           <CardDescription>
-            Deploy your new project in one-click.
+            Hãy nhập tài email và mật khẩu của bạn!
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -46,16 +46,16 @@ export default function page() {
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
-                  placeholder="Your email"
+                  placeholder="Email của bạn"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Mật khẩu</Label>
                 <Input
                   id="password"
-                  placeholder="Your password"
+                  placeholder="Mật khẩu của bạn"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -64,7 +64,7 @@ export default function page() {
               <span
                 className={`text-red-500 text-sm ${error ? "block" : "hidden"}`}
               >
-                *Wrong email or password*
+                *Email hoặc mật khẩu sai*
               </span>
             </div>
           </form>
@@ -76,13 +76,13 @@ export default function page() {
               router.push("/");
             }}
           >
-            Cancel
+            Hủy
           </Button>
           <Button
             onClick={handleLogin}
             className="bg-blue-500 hover:bg-blue-300"
           >
-            Sign in
+            Đăng nhập
           </Button>
         </CardFooter>
       </Card>

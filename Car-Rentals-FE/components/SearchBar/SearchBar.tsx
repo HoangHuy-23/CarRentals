@@ -70,9 +70,9 @@ export default function SearchBar() {
     <div>
       <div className="md:px-32 bg-white rounded-lg shadow-md py-8 flex flex-col gap-5 text-center -mt-16 px-2">
         <h1 className="text-5xl font-bold tracking-tighter text-blue-600">
-          Let's find your companion
+          Hãy tìm bạn đồng hành của bạn
         </h1>
-        <span className="text-xl">Car is just a click away!</span>
+        <span className="text-xl">Một chuyến đi tuyệt vời sắp đến rồi!</span>
 
         <form
           className="flex items-center justify-center max-md:flex-col w-full relative max-sm:gap-4 gap-6"
@@ -86,7 +86,7 @@ export default function SearchBar() {
               htmlFor="pickUpDate"
               className="text-gray-500 font-semibold text-sm ml-2 self-start"
             >
-              Location
+              Địa điểm
             </label>
             <SearchLocation
               location={location}
@@ -100,7 +100,7 @@ export default function SearchBar() {
               htmlFor="pickUpDate"
               className="text-gray-500 font-semibold text-sm ml-2 self-start"
             >
-              Pick-up Date
+              Nhận xe
             </label>
             <SearchDate
               pickUpDate={pickUpDate}
@@ -115,7 +115,7 @@ export default function SearchBar() {
               htmlFor="pickUpDate"
               className="text-gray-500 font-semibold text-sm ml-2 self-start"
             >
-              Drop-off Date
+              Trả xe
             </label>
             <SearchDate
               pickUpDate={pickUpDate}
@@ -129,7 +129,7 @@ export default function SearchBar() {
             type="submit"
             className="bg-blue-500 rounded-lg hover:bg-blue-300 mt-5 h-[40px]"
           >
-            Search
+            Tìm kiếm
           </Button>
         </form>
       </div>

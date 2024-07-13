@@ -32,7 +32,7 @@ export default function UsernameMenu() {
             href="/user-profile/my-account"
             className="font-bold hover:text-blue-500"
           >
-            User Profile
+            Thông tin của tôi
           </Link>
         </DropdownMenuItem>
         <Separator />
@@ -41,7 +41,7 @@ export default function UsernameMenu() {
             onClick={handleLogout}
             className="flex flex-1 font-bold bg-blue-500"
           >
-            Log out
+            Đăng xuất
           </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>

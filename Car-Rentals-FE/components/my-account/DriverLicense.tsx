@@ -27,13 +27,13 @@ export default function DriverLicense() {
     <div className="bg-white rounded-xl flex flex-col px-5 py-5">
       {/* header */}
       <div className="flex justify-between items-center">
-        <span className="text-2xl font-semibold flex">Driver License</span>
+        <span className="text-2xl font-semibold flex">Giấy phép lái xe</span>
         {!isEdit ? (
           <Button
             onClick={handleBtnEdit}
             className="bg-white hover:bg-slate-50 text-black"
           >
-            <span className="font-bold px-2">Edit</span>
+            <span className="font-bold px-2">Chỉnh sửa</span>
             <Pencil width={16} height={16} />
           </Button>
         ) : (
@@ -42,7 +42,7 @@ export default function DriverLicense() {
               onClick={handleBtnCancel}
               className="bg-red-200 hover:bg-red-50 text-black"
             >
-              <span className="font-bold px-2">Cancel</span>
+              <span className="font-bold px-2">Hủy</span>
               <X width={16} height={16} />
             </Button>
 
@@ -50,7 +50,7 @@ export default function DriverLicense() {
               onClick={handleBtnSave}
               className="bg-blue-500 hover:bg-blue-300 text-white"
             >
-              <span className="font-bold px-2">Save</span>
+              <span className="font-bold px-2">Lưu</span>
               {/* <Pencil width={16} height={16} /> */}
             </Button>
           </div>
@@ -60,7 +60,7 @@ export default function DriverLicense() {
       <div className="flex flex-col sm:flex-row gap-8 py-4">
         {/* left */}
         <div className="flex flex-col w-[50%]">
-          <h1 className="font-semibold">Photo</h1>
+          <h1 className="font-semibold">Hình ảnh</h1>
           <div className="flex justify-center items-center h-full relative border rounded-lg">
             <CloudUpload className="text-blue-500" />
             <input
@@ -72,30 +72,30 @@ export default function DriverLicense() {
         </div>
         {/* right */}
         <div className="flex flex-col items-start w-[50%] gap-4">
-          <h1 className="font-semibold">Info</h1>
+          <h1 className="font-semibold">Thông tin chung</h1>
           <form action="" method="post" className="flex flex-col w-full gap-3">
             <div className="flex flex-col gap-2">
-              <label htmlFor="code">Code</label>
+              <label htmlFor="code">Số GPLX</label>
               <input
                 type="text"
                 id="code"
-                placeholder="Input code license"
+                placeholder="Nhập số GPLX đã cấp"
                 disabled={!isEdit}
                 className="h-[40px] px-2 rounded-md"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="name">Full name</label>
+              <label htmlFor="name">Họ và tên</label>
               <input
                 type="text"
                 id="name"
-                placeholder="Input full name"
+                placeholder="Nhập đầy đủ họ tên"
                 disabled={!isEdit}
                 className="h-[40px] px-2 rounded-md"
               />
             </div>
             <div className="flex flex-col gap-2">
-              <label htmlFor="code">Date of birth</label>
+              <label htmlFor="code">Ngày sinh</label>
               <input
                 type="date"
                 defaultValue="01/01/1970"

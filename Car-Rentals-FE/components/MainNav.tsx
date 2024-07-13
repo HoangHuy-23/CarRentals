@@ -7,17 +7,17 @@ import { useAuthContext } from "@/app/contexts/authContext";
 const NavLinks = [
   {
     id: "1",
-    name: "Become our partner",
+    name: "Trờ thành đối tác",
     link: "/#",
   },
   {
     id: "2",
-    name: "About us",
+    name: "Về chúng tôi",
     link: "/#",
   },
   {
     id: "3",
-    name: "Support",
+    name: "Trợ giúp",
     link: "/#",
   },
 ];
@@ -43,7 +43,7 @@ export default function MainNav() {
             key="login"
             className="px-2 cursor-pointer capitalize py-2 font-semibold text-sm hover:text-blue-500"
           >
-            <Link href="/login">Log in</Link>
+            <Link href="/login">Đăng nhập</Link>
           </li>
         )}
       </ul>

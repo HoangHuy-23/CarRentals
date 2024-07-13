@@ -6,8 +6,8 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="bg-neutral-100 py-12">
-      <div className="container grid grid-cols-1 md:grid-cols-[2fr_5fr]">
+    <section className="bg-neutral-100 py-12 min-h-[80vh]">
+      <div className="container grid grid-cols-1 md:grid-cols-[2fr_5fr] ">
         <ProfileNav />
         {children}
       </div>

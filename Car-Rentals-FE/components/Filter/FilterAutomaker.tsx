@@ -27,7 +27,7 @@ export default function FilterAutomaker({ automaker, setAutomaker }: Props) {
     >
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="all" id="r1" />
-        <Label htmlFor="r1">All</Label>
+        <Label htmlFor="r1">Tất cả</Label>
       </div>
       {makers.map((maker) => (
         <div className="flex items-center space-x-2" key={maker.name}>
