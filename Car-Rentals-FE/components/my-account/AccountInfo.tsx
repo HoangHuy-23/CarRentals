@@ -12,7 +12,7 @@ import Avatar from "../Avatar";
 
 export default function AccountInfo() {
   const { user, refetch } = useAuthContext();
-  const mutation = useMutation({ mutationFn: updateUser });
+  //const mutation = useMutation({ mutationFn: updateUser });
 
   return (
     <div className="bg-white rounded-xl flex flex-col px-5 py-5">

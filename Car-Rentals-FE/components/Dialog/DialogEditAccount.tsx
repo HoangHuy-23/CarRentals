@@ -10,17 +10,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar as CalendarIcon, Pencil } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import { useAuthContext } from "@/app/contexts/authContext";
 import { User } from "@/types";
 import { useUpdateUser } from "@/app/hooks/useUser";
+import { formatDayToString } from "@/utils";
 
 export function DialogEditAccount() {
   const { user } = useAuthContext();
-  const mutation = useUpdateUser();
+  const { mutate, isPending, isError } = useUpdateUser();
   const [isOpen, setIsOpen] = useState(false);
-  const [date, setDate] = useState<Date | undefined>(user?.dob);
+  const [date, setDate] = useState<string>(user?.dob as unknown as string);
   const [username, setUsername] = useState<string | undefined>(
     user?.fullName || "user"
   );
@@ -28,9 +29,9 @@ export function DialogEditAccount() {
 
   useEffect(() => {
     if (isOpen) {
-      setDate(user?.dob);
-      setUsername(user?.fullName);
-      setGender(user?.gender);
+      setDate((user?.dob as unknown as string) || "");
+      setUsername(user?.fullName || "");
+      setGender(user?.gender || true);
     }
   }, [isOpen, user]);
 
@@ -43,23 +44,13 @@ export function DialogEditAccount() {
       const req: User = {
         ...user,
         fullName: username || "",
-        dob: date || new Date(),
+        dob: new Date(date) || new Date(),
         gender: gender || false,
       };
-      mutation.mutate(req);
+      mutate(req);
       setIsOpen(false);
     } else {
       console.error("User id is undefined");
-    }
-  };
-
-  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value) {
-      const newDate = new Date(value);
-      setDate(newDate);
-    } else {
-      setDate(undefined);
     }
   };
 
@@ -72,12 +63,12 @@ export function DialogEditAccount() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Chỉnh sửa thông tin</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-6 items-center gap-4">
             <Label htmlFor="name" className="text-left col-span-2">
-              User name
+              Tên người người
             </Label>
             <Input
               id="name"
@@ -90,19 +81,20 @@ export function DialogEditAccount() {
           </div>
           <div className="grid grid-cols-6 items-center gap-4">
             <Label htmlFor="dob" className="text-left col-span-2">
-              Date of birth
+              Ngày sinh
             </Label>
             <Input
               type="date"
-              value={date?.toString()}
-              onChange={handleDateChange}
-              defaultValue={date?.toString()}
+              value={date}
+              onChange={(e) => {
+                setDate(e.target.value);
+              }}
               className="col-span-4 block"
             />
           </div>
           <div className="grid grid-cols-6 items-center gap-4">
             <Label htmlFor="username" className="text-left col-span-2">
-              Gender
+              Giới tính
             </Label>
             <RadioGroup
               defaultValue={gender ? "male" : "female"}
@@ -111,11 +103,11 @@ export function DialogEditAccount() {
             >
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="male" id="r1" />
-                <Label htmlFor="r1">Male</Label>
+                <Label htmlFor="r1">Nam</Label>
               </div>
               <div className="flex items-center space-x-2">
                 <RadioGroupItem value="female" id="r2" />
-                <Label htmlFor="r2">Female</Label>
+                <Label htmlFor="r2">Nữ</Label>
               </div>
             </RadioGroup>
           </div>
@@ -126,7 +118,7 @@ export function DialogEditAccount() {
             onClick={handleSave}
             className="bg-blue-500 hover:bg-blue-300"
           >
-            Save changes
+            Lưu
           </Button>
         </DialogFooter>
       </DialogContent>

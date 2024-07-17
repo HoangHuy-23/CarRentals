@@ -34,6 +34,7 @@ public class UserAddress {
 	private String city;
 	private String district;
 	private String ward;
+	private String street;
 
 	@Column(name = "address_map")
 	private String addressMap;

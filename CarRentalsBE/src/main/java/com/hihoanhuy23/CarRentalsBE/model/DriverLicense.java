@@ -27,6 +27,9 @@ import lombok.Setter;
 @Entity
 @Table(name = "driver_license")
 public class DriverLicense {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id; // Add an ID field for the primary key
 	private String code;
 	@Column(name = "full_name")
 	private String fullName;
@@ -37,7 +40,6 @@ public class DriverLicense {
 	@Enumerated(EnumType.STRING)
 	private AuthenticationStatus status;
 	@JsonIgnore
-	@EmbeddedId
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private User user;

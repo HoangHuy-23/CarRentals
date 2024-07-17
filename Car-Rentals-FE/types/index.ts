@@ -50,6 +50,7 @@ export type User = {
 };
 
 export type DriverLicense = {
+  id?: number;
   code: string;
   fullName: string;
   dob: Date;
@@ -57,14 +58,24 @@ export type DriverLicense = {
   status: string;
 };
 
+export type DriverLicenseReq = {
+  id?: number;
+  code: string;
+  fullName: string;
+  dob: Date;
+  image: File | null;
+  status: string;
+};
+
 export type UserAddress = {
-  id: number;
+  id?: number;
   remindName: string;
   city: string;
   district: string;
   ward: string;
+  street: string;
   addressMap: string;
-  isDefault: boolean;
+  default: boolean;
   type: string;
 };
 

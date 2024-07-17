@@ -1,6 +1,7 @@
 package com.hihoanhuy23.CarRentalsBE.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -55,7 +56,7 @@ public class User {
 	private DriverLicense driverLicense;
 	
 	@OneToMany(mappedBy = "user")
-	private Set<UserAddress> addresses;
+	private Set<UserAddress> addresses = new HashSet<>();
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)

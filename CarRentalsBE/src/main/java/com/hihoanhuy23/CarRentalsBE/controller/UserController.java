@@ -1,21 +1,30 @@
 package com.hihoanhuy23.CarRentalsBE.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hihoanhuy23.CarRentalsBE.exception.CarException;
 import com.hihoanhuy23.CarRentalsBE.exception.UserException;
-import com.hihoanhuy23.CarRentalsBE.model.Car;
-import com.hihoanhuy23.CarRentalsBE.model.CarReview;
-import com.hihoanhuy23.CarRentalsBE.model.User;
+import com.hihoanhuy23.CarRentalsBE.model.*;
+import com.hihoanhuy23.CarRentalsBE.repository.UserAddressRepository;
 import com.hihoanhuy23.CarRentalsBE.repository.UserRepository;
 import com.hihoanhuy23.CarRentalsBE.request.CreateCarRequest;
 import com.hihoanhuy23.CarRentalsBE.request.CreateReviewRequest;
+import com.hihoanhuy23.CarRentalsBE.request.UploadDriverLicenseRequest;
 import com.hihoanhuy23.CarRentalsBE.response.ApiResponse;
 import com.hihoanhuy23.CarRentalsBE.service.CarService;
+import com.hihoanhuy23.CarRentalsBE.service.CloudinaryService;
 import com.hihoanhuy23.CarRentalsBE.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -27,6 +36,10 @@ public class UserController {
     private CarService carService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserAddressRepository userAddressRepository;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @GetMapping("/profile")
     public ResponseEntity<ApiResponse<User>> findUserByJwtToken(@RequestHeader("Authorization") String jwt) throws UserException {
@@ -96,5 +109,59 @@ public class UserController {
         userRepository.save(user);
         ApiResponse<User> response = new ApiResponse<>(true, "Update successfully", user);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/add-address")
+    public ResponseEntity<User> addNewAddress(@RequestHeader("Authorization") String jwt, @RequestBody UserAddress req) throws UserException {
+        User user = userService.findUserProfileByJwt(jwt);
+        User userAddress = userService.addAddress(user, req);
+        return new ResponseEntity<>(userAddress, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update-address")
+    public ResponseEntity<UserAddress> updateAddress(@RequestHeader("Authorization") String jwt,@RequestParam Long idAddress, @RequestBody UserAddress req) throws UserException {
+        User user = userService.findUserProfileByJwt(jwt);
+        UserAddress address = userAddressRepository.getReferenceById(idAddress);
+        UserAddress updated = userService.updateAddress(user, address, req);
+        return new ResponseEntity<>(updated, HttpStatus.OK);
+    }
+
+    @PostMapping("/upload-driver-license")
+    public  ResponseEntity<DriverLicense> uploadDriverLicense(@RequestHeader("Authorization") String jwt, @RequestBody DriverLicense req) throws UserException {
+        User user = userService.findUserProfileByJwt(jwt);
+        DriverLicense updated = userService.uploadDriverLicense(user, req);
+        return new ResponseEntity<>(updated, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/upload", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<DriverLicense> uploadDriverLicense(
+            @RequestHeader("Authorization") String jwt,
+            @ModelAttribute UploadDriverLicenseRequest req,
+            @RequestPart(value = "image", required = false)  MultipartFile image) throws UserException {
+
+        User user = userService.findUserProfileByJwt(jwt);
+
+        DriverLicense driverLicense = new DriverLicense();
+        driverLicense.setCode(req.getCode());
+        driverLicense.setFullName(req.getFullName());
+        driverLicense.setDob(req.getDob());
+        driverLicense.setStatus(req.getStatus());
+
+        if (image==null) {
+            driverLicense.setUrlImage(user.getDriverLicense().getUrlImage());
+        } else {
+            try {
+                Map uploadResult = cloudinaryService.upload(image, req.getCode());
+                driverLicense.setUrlImage(uploadResult.get("url").toString());
+            } catch (IOException e) {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+
+        // Lưu driverLicense vào cơ sở dữ liệu nếu cần
+
+        DriverLicense updated = userService.uploadDriverLicense(user, driverLicense);
+        return new ResponseEntity<>(updated, HttpStatus.CREATED);
     }
 }

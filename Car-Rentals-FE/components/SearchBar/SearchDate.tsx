@@ -56,6 +56,10 @@ export function SearchDate({
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    setDate({ from: pickUpDate, to: dropOffDate });
+  }, [pickUpDate, dropOffDate]);
+
+  useEffect(() => {
     if (date?.from && date?.to) {
       const pick = updateDateWithTime(date.from, startTime);
       const drop = updateDateWithTime(date.to, endTime);
@@ -67,8 +71,9 @@ export function SearchDate({
   const handleSave = () => {
     const today = new Date();
     if (date?.from && date?.to) {
-      updateDateWithTime(date.from, startTime);
-      updateDateWithTime(date.to, endTime);
+      const pick = updateDateWithTime(date.from, startTime);
+      const drop = updateDateWithTime(date.to, endTime);
+      setDate({ from: pick, to: drop });
       if (date.from < today) {
         setErrorPick(true);
         return;
@@ -97,7 +102,7 @@ export function SearchDate({
       </DialogTrigger>
       <DialogContent className="sm:max-w-[535px]">
         <DialogHeader>
-          <DialogTitle className="text-center">Time</DialogTitle>
+          <DialogTitle className="text-center">Thời gian</DialogTitle>
         </DialogHeader>
         <div id="date" className="flex items-center justify-center">
           <Calendar
@@ -124,14 +129,14 @@ export function SearchDate({
               {formatDateToStringType1(date?.from || new Date())} -{" "}
               {formatDateToStringType1(date?.to || new Date())}
             </span>
-            <span>So ngay thue: {daysDifference} ngay</span>
+            <span>Số ngày thuê: {daysDifference} ngày</span>
           </div>
           <Button
             type="button"
             className="bg-blue-500 hover:bg-blue-300"
             onClick={handleSave}
           >
-            Save changes
+            Lưu
           </Button>
         </DialogFooter>
       </DialogContent>

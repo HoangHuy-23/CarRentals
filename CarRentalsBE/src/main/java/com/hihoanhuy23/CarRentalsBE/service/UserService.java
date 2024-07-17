@@ -18,7 +18,7 @@ public interface UserService {
 
     public User uploadAvatar(User user, String urlAvatar) throws UserException;
 
-    public User uploadDriverLicense(User user, DriverLicense req) throws UserException;
+    public DriverLicense uploadDriverLicense(User user, DriverLicense req) throws UserException;
 
     public User updateUser(User user, User req) throws UserException;
 
@@ -36,4 +36,7 @@ public interface UserService {
 
     public CarReview reviewCar(User user, Car car, CreateReviewRequest req) throws UserException, CarException;
 
+    public User addAddress(User user, UserAddress address) throws UserException;
+
+    public UserAddress updateAddress(User user,UserAddress address, UserAddress req) throws UserException;
 }

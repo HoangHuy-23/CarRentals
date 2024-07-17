@@ -1,7 +1,15 @@
 "use client";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { getMyCar, getMyFavouriteCar, updateUser } from "../actions/UserAction";
+import {
+  addNewAddress,
+  getMyCar,
+  getMyFavouriteCar,
+  updateAddress,
+  updateUser,
+  uploadDriverLicense,
+} from "../actions/UserAction";
 import { useAuthContext } from "../contexts/authContext";
+import { error } from "console";
 
 export function useUpdateUser() {
   const { refetch } = useAuthContext();
@@ -14,7 +22,53 @@ export function useUpdateUser() {
       console.error("Failed to update user:", error);
     },
   });
-  return mutation;
+  const { mutate, isPending, isError } = mutation;
+  return { mutate, isPending, isError };
+}
+
+export function useAddNewAddress() {
+  const { refetch } = useAuthContext();
+  const mutation = useMutation({
+    mutationFn: addNewAddress,
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error("Failed to create address:", error);
+    },
+  });
+  const { mutate, isPending, isError } = mutation;
+  return { mutate, isPending, isError };
+}
+
+export function useUpdateAddress() {
+  const { refetch } = useAuthContext();
+  const mutation = useMutation({
+    mutationFn: updateAddress,
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error("Failed to create address:", error);
+    },
+  });
+  const { mutate, isPending, isError } = mutation;
+  return { mutate, isPending, isError };
+}
+
+export function useUploadDriverLicense() {
+  const { refetch } = useAuthContext();
+  const mutation = useMutation({
+    mutationFn: uploadDriverLicense,
+    onSuccess: () => {
+      refetch();
+    },
+    onError: (error) => {
+      console.error("Failed to upload driver license:", error);
+    },
+  });
+  const { mutate, isPending, isError } = mutation;
+  return { mutate, isPending, isError };
 }
 
 export function useMyFavouriteCar() {

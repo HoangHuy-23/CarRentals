@@ -4,9 +4,7 @@ import com.hihoanhuy23.CarRentalsBE.config.JwtProvider;
 import com.hihoanhuy23.CarRentalsBE.exception.CarException;
 import com.hihoanhuy23.CarRentalsBE.exception.UserException;
 import com.hihoanhuy23.CarRentalsBE.model.*;
-import com.hihoanhuy23.CarRentalsBE.repository.CarRepository;
-import com.hihoanhuy23.CarRentalsBE.repository.CarReviewRepository;
-import com.hihoanhuy23.CarRentalsBE.repository.UserRepository;
+import com.hihoanhuy23.CarRentalsBE.repository.*;
 import com.hihoanhuy23.CarRentalsBE.request.CreateReviewRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,6 +25,10 @@ public class UserServiceImplementation implements UserService{
     private CarRepository carRepository;
     @Autowired
     private CarReviewRepository reviewRepository;
+    @Autowired
+    private UserAddressRepository userAddressRepository;
+    @Autowired
+    private DriverLicenseRepository driverLicenseRepository;
 
 
 
@@ -67,7 +66,8 @@ public class UserServiceImplementation implements UserService{
     }
 
     @Override
-    public User uploadDriverLicense(User user, DriverLicense req) throws UserException {
+    @Transactional
+    public DriverLicense uploadDriverLicense(User user, DriverLicense req) throws UserException {
         DriverLicense driverLicense = user.getDriverLicense();
         if (driverLicense == null) {
             driverLicense = new DriverLicense();
@@ -80,9 +80,11 @@ public class UserServiceImplementation implements UserService{
         driverLicense.setStatus(req.getStatus());
         driverLicense.setUser(user);
 
-        user.setDriverLicense(driverLicense);
 
-        return userRepository.save(user);
+        user.setDriverLicense(driverLicense);
+        userRepository.save(user);
+
+        return driverLicenseRepository.save(driverLicense);
     }
 
     @Override
@@ -145,4 +147,36 @@ public class UserServiceImplementation implements UserService{
         carRepository.save(car);
         return reviewRepository.save(carReview);
     }
+
+    @Override
+    @Transactional
+    public User addAddress(User user, UserAddress address) throws UserException {
+        Set<UserAddress> userAddresses = user.getAddresses();
+        if (userAddresses.isEmpty()) address.setDefault(true);
+        userAddresses.add(address);
+        user.setAddresses(userAddresses);
+        address.setUser(user); // Ensure the UserAddress is associated with the User
+        userAddressRepository.save(address);
+        return userRepository.save(user);
+    }
+
+    @Override
+    public UserAddress updateAddress(User user,UserAddress address, UserAddress req) throws UserException {
+        if (req.isDefault()) {
+            Set<UserAddress> userAddresses = user.getAddresses();
+            for (UserAddress a : userAddresses) {
+                a.setDefault(false);
+            }
+            userRepository.save(user);
+        }
+        address.setCity(req.getCity());
+        address.setWard(req.getWard());
+        address.setDistrict(req.getDistrict());
+        address.setStreet(req.getStreet());
+        address.setAddressMap(req.getAddressMap());
+        address.setRemindName(req.getRemindName());
+        address.setDefault(req.isDefault());
+        return userAddressRepository.save(address);
+    }
+
 }

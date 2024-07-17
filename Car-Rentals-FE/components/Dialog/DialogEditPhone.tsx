@@ -17,7 +17,7 @@ import { User } from "@/types";
 
 export default function DialogEditPhone() {
   const { user } = useAuthContext();
-  const mutation = useUpdateUser();
+  const { mutate, isPending, isError } = useUpdateUser();
 
   const [isOpen, setIsOpen] = useState(false);
   const [phone, setPhone] = useState(user?.phone);
@@ -34,7 +34,7 @@ export default function DialogEditPhone() {
         ...user,
         phone: user.phone,
       };
-      mutation.mutate(req);
+      mutate(req);
       setIsOpen(false);
     } else {
       console.error("Phone number update error");
