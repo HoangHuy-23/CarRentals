@@ -1,6 +1,7 @@
 "use client";
 import { addNewAddress, updateAddress } from "@/app/actions/UserAction";
-import { useAuthContext } from "@/app/contexts/authContext";
+import useAuth from "@/app/hooks/useAuth";
+
 import { useAddNewAddress, useUpdateAddress } from "@/app/hooks/useUser";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -25,7 +26,7 @@ export default function page() {
   const [home, setHome] = useState(false);
   const [office, setOffice] = useState(false);
   const [other, setOther] = useState(false);
-  const { user, refetch, isLoading, error } = useAuthContext();
+  const { user, refetch, isLoading, error } = useAuth();
 
   // useEffect(() => {
   //   setAddress(user?.addresses.at(0));

@@ -5,6 +5,13 @@ import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { addHoursAndRoundMinutes, formatDateToString } from "@/utils";
 import { SearchDate } from "./SearchDate";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import {
+  setEndDate,
+  setLocation,
+  setStartDate,
+} from "@/redux/reducer/bookingSlice";
 
 export default function SearchBar() {
   let now = new Date();
@@ -13,8 +20,10 @@ export default function SearchBar() {
   tomorrow.setDate(now.getDate() + 1);
 
   const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
+  //const { location, startDate, endDate } = useSelector((state: RootState) => state.booking);
 
-  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
   const [pickUpDate, setPickUpDate] = useState(now);
   const [dropOffDate, setDropOffDate] = useState(tomorrow);
 
@@ -31,7 +40,7 @@ export default function SearchBar() {
   }, []);
 
   const revalidateFrom = () => {
-    if (location === "") {
+    if (city === "") {
       setErrorLocation(true);
       return false;
     }
@@ -53,17 +62,20 @@ export default function SearchBar() {
     if (revalidateFrom()) {
       router.push(
         `/search?location=${encodeURIComponent(
-          location
+          city
         )}&pickUpDate=${encodeURIComponent(
           formatDateToString(pickUpDate)
         )}&dropOffDate=${encodeURIComponent(formatDateToString(dropOffDate))}`
       );
-      localStorage.setItem("location-car", location);
+      localStorage.setItem("location-car", city);
+      dispatch(setLocation(city));
       localStorage.setItem("pick-up-date-car", formatDateToString(pickUpDate));
+      dispatch(setStartDate(formatDateToString(pickUpDate)));
       localStorage.setItem(
         "drop-off-date-car",
         formatDateToString(dropOffDate)
       );
+      dispatch(setEndDate(formatDateToString(dropOffDate)));
     }
   };
   return (
@@ -89,8 +101,8 @@ export default function SearchBar() {
               Địa điểm
             </label>
             <SearchLocation
-              location={location}
-              setLocation={setLocation}
+              location={city}
+              setLocation={setCity}
               isEmpty={errorLocation}
               setIsEmpty={setErrorLocation}
             />

@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuthContext } from "@/app/contexts/authContext";
 import { Link, Luggage, Pencil, Star } from "lucide-react";
 import { DialogEditAccount } from "../Dialog/DialogEditAccount";
 import DialogEditPhone from "../Dialog/DialogEditPhone";
@@ -9,9 +8,10 @@ import { UseMutationResult, useMutation } from "@tanstack/react-query";
 import { updateUser } from "@/app/actions/UserAction";
 import { User } from "@/types";
 import Avatar from "../Avatar";
+import useAuth from "@/app/hooks/useAuth";
 
 export default function AccountInfo() {
-  const { user, refetch } = useAuthContext();
+  const { user, refetch } = useAuth();
   //const mutation = useMutation({ mutationFn: updateUser });
 
   return (

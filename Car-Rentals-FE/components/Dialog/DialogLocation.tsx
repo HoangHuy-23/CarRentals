@@ -14,6 +14,11 @@ import { MapPin } from "lucide-react";
 import { SearchLocation } from "../SearchBar/SearchLocation";
 import { useState } from "react";
 import { SearchState } from "../SearchCarResult/ListCarAndFilter";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { setLocation } from "@/redux/reducer/bookingSlice";
+import { useRouter } from "next/navigation";
+import { formatDateToString } from "@/utils";
 
 type Props = {
   filters: SearchState;
@@ -21,6 +26,11 @@ type Props = {
 };
 
 export function DialogLocation({ filters, onFilterChange }: Props) {
+  const router = useRouter();
+  const { startDate, endDate } = useSelector(
+    (state: RootState) => state.booking
+  );
+  const dispatch = useDispatch<AppDispatch>();
   const [isEmpty, setIsEmpty] = useState(false);
   const [city, setCity] = useState(filters.city);
   const [open, setOpen] = useState(false);
@@ -34,7 +44,15 @@ export function DialogLocation({ filters, onFilterChange }: Props) {
     setCity(city);
     setIsEmpty(false);
     onFilterChange({ city });
+    dispatch(setLocation(city));
     localStorage.setItem("location-car", city);
+    router.push(
+      `/search?location=${encodeURIComponent(
+        city
+      )}&pickUpDate=${encodeURIComponent(
+        startDate || ""
+      )}&dropOffDate=${encodeURIComponent(endDate || "")}`
+    );
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>

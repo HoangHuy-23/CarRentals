@@ -10,12 +10,12 @@ import { CircleUserRound } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
-import { useAuthContext } from "@/app/contexts/authContext";
 import { useRouter } from "next/navigation";
+import useAuth from "@/app/hooks/useAuth";
 
 export default function UsernameMenu() {
   const router = useRouter();
-  const { user, logout } = useAuthContext();
+  const { user, logout } = useAuth();
   const handleLogout = () => {
     logout();
     router.push("/");

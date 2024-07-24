@@ -11,12 +11,13 @@ import {
 import { Button } from "../ui/button";
 import { Pencil } from "lucide-react";
 import { Input } from "../ui/input";
-import { useAuthContext } from "@/app/contexts/authContext";
+
 import { useUpdateUser } from "@/app/hooks/useUser";
 import { User } from "@/types";
+import useAuth from "@/app/hooks/useAuth";
 
 export default function DialogEditPhone() {
-  const { user } = useAuthContext();
+  const { user } = useAuth();
   const { mutate, isPending, isError } = useUpdateUser();
 
   const [isOpen, setIsOpen] = useState(false);

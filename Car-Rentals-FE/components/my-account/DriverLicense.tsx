@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuthContext } from "@/app/contexts/authContext";
 import { CloudUpload, Pencil, X } from "lucide-react";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
@@ -11,6 +10,7 @@ import Image from "next/image";
 import NoImage from "@/public/no-image.jpg";
 import { useUploadDriverLicense } from "@/app/hooks/useUser";
 import { DriverLicenseReq } from "@/types";
+import useAuth from "@/app/hooks/useAuth";
 
 export default function DriverLicense() {
   const handleChangeFileToUrl = (file: File): string => {
@@ -19,7 +19,7 @@ export default function DriverLicense() {
   };
   const { mutate, isPending, isError } = useUploadDriverLicense();
 
-  const { user } = useAuthContext();
+  const { user } = useAuth();
   const license = user?.driverLicense;
 
   const [isEdit, setIsEdit] = useState(false);

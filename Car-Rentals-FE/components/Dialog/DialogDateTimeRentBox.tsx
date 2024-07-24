@@ -23,6 +23,9 @@ import {
   formatTimeToString,
   updateDateWithTime,
 } from "@/utils";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { setEndDate, setStartDate } from "@/redux/reducer/bookingSlice";
 
 type Props = {
   setPickUpDate: (pickUpDate: Date) => void;
@@ -33,6 +36,7 @@ export default function DialogDateTimeRentBox({
   setPickUpDate,
   setDropOffDate,
 }: Props) {
+  const dispatch = useDispatch<AppDispatch>();
   const getStoredDate = (key: string) => {
     const dateStr = localStorage.getItem(key);
     return dateStr ? new Date(dateStr) : new Date();
@@ -86,7 +90,9 @@ export default function DialogDateTimeRentBox({
       setPickUpDate(pick);
       setDropOffDate(drop);
       localStorage.setItem("pick-up-date-car", formatDateToString(date.from));
+      dispatch(setStartDate(formatDateToString(date.from)));
       localStorage.setItem("drop-off-date-car", formatDateToString(date.to));
+      dispatch(setEndDate(formatDateToString(date.to)));
       setOpen(false);
     }
   };

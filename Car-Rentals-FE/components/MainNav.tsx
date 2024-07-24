@@ -1,8 +1,6 @@
-//import { useAuth } from "@/app/api/AuthApi";
-
 import Link from "next/link";
 import UsernameMenu from "./UsernameMenu";
-import { useAuthContext } from "@/app/contexts/authContext";
+import useAuth from "@/app/hooks/useAuth";
 
 const NavLinks = [
   {
@@ -23,7 +21,7 @@ const NavLinks = [
 ];
 
 export default function MainNav() {
-  const { isAuthenticated } = useAuthContext();
+  const { isAuthenticated } = useAuth();
 
   return (
     <span>

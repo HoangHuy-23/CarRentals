@@ -21,6 +21,10 @@ import { useEffect, useState } from "react";
 import { Calendar } from "../ui/calendar";
 import { SelectTime } from "./SelectTime";
 import { DateRange } from "react-day-picker";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { setEndDate, setStartDate } from "@/redux/reducer/bookingSlice";
+import { useRouter } from "next/navigation";
 
 type Props = {
   pickUpDate: Date;
@@ -30,6 +34,11 @@ type Props = {
 };
 
 export function DialogDateTime({ setPickUpDate, setDropOffDate }: Props) {
+  const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  const { location, startDate, endDate } = useSelector(
+    (state: RootState) => state.booking
+  );
   const getStoredDate = (key: string) => {
     const dateStr = localStorage.getItem(key);
     return dateStr ? new Date(dateStr) : new Date();
@@ -78,8 +87,17 @@ export function DialogDateTime({ setPickUpDate, setDropOffDate }: Props) {
       setPickUpDate(date.from);
       setDropOffDate(date.to);
       localStorage.setItem("pick-up-date-car", formatDateToString(date.from));
+      dispatch(setStartDate(formatDateToString(date.from)));
       localStorage.setItem("drop-off-date-car", formatDateToString(date.to));
+      dispatch(setEndDate(formatDateToString(date.to)));
       setOpen(false);
+      router.push(
+        `/search?location=${encodeURIComponent(
+          location || ""
+        )}&pickUpDate=${encodeURIComponent(
+          startDate || ""
+        )}&dropOffDate=${encodeURIComponent(endDate || "")}`
+      );
     }
   };
   return (

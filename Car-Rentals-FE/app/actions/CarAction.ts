@@ -1,6 +1,6 @@
 "use server";
+import { SearchState } from "@/components/SearchCarResult/ListCarAndFilter";
 import { Car, CarSearchResponse, User } from "@/types";
-import { SearchState } from "../search/page";
 
 const API_BASE_URL = "http://localhost:2003";
 

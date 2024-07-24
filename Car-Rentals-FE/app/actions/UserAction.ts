@@ -1,5 +1,6 @@
 "use sever";
 
+import { RootState } from "@/redux/store";
 import {
   Car,
   DriverLicense,
@@ -8,11 +9,12 @@ import {
   UserAddress,
 } from "@/types";
 import { formatDateToLocalDate } from "@/utils";
+import { useSelector } from "react-redux";
 
 const API_BASE_URL = "http://localhost:2003";
 
 export const updateUser = async (req: User): Promise<User> => {
-  const jwt = localStorage.getItem("jwt");
+  const jwt = sessionStorage.getItem("jwt");
   const response = await fetch(`${API_BASE_URL}/api/users/update-my-account`, {
     method: "PUT",
     headers: {
@@ -29,7 +31,7 @@ export const updateUser = async (req: User): Promise<User> => {
 };
 
 export const addNewAddress = async (req: UserAddress): Promise<User> => {
-  const jwt = localStorage.getItem("jwt");
+  const jwt = sessionStorage.getItem("jwt");
   const response = await fetch(`${API_BASE_URL}/api/users/add-address`, {
     method: "POST",
     headers: {
@@ -47,7 +49,7 @@ export const addNewAddress = async (req: UserAddress): Promise<User> => {
 export const uploadDriverLicense = async (
   req: DriverLicenseReq
 ): Promise<DriverLicense> => {
-  const jwt = localStorage.getItem("jwt");
+  const jwt = sessionStorage.getItem("jwt");
   const formData = new FormData();
   formData.append("code", req.code);
   formData.append("fullName", req.fullName);
@@ -71,7 +73,7 @@ export const uploadDriverLicense = async (
 };
 
 export const updateAddress = async (req: UserAddress): Promise<UserAddress> => {
-  const jwt = localStorage.getItem("jwt");
+  const jwt = sessionStorage.getItem("jwt");
   const response = await fetch(
     `${API_BASE_URL}/api/users/update-address?idAddress=${req.id}`,
     {
@@ -90,7 +92,8 @@ export const updateAddress = async (req: UserAddress): Promise<UserAddress> => {
 };
 
 export const getMyFavouriteCar = async (): Promise<Car[]> => {
-  const jwt = localStorage.getItem("jwt");
+  //const jwt = useSelector((state: RootState) => state.auth.token);
+  const jwt = sessionStorage.getItem("jwt");
   const response = await fetch(`${API_BASE_URL}/api/users/my-favourite-car`, {
     method: "GET",
     headers: {
@@ -105,7 +108,7 @@ export const getMyFavouriteCar = async (): Promise<Car[]> => {
 };
 
 export const getMyCar = async (): Promise<Car[]> => {
-  const jwt = localStorage.getItem("jwt");
+  const jwt = sessionStorage.getItem("jwt");
   const response = await fetch(`${API_BASE_URL}/api/users/my-car`, {
     method: "GET",
     headers: {

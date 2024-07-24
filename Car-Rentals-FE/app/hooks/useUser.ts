@@ -8,11 +8,13 @@ import {
   updateUser,
   uploadDriverLicense,
 } from "../actions/UserAction";
-import { useAuthContext } from "../contexts/authContext";
+
 import { error } from "console";
+import useAuth from "./useAuth";
+import { useSelector } from "react-redux";
 
 export function useUpdateUser() {
-  const { refetch } = useAuthContext();
+  const { refetch } = useAuth();
   const mutation = useMutation({
     mutationFn: updateUser,
     onSuccess: () => {
@@ -27,7 +29,7 @@ export function useUpdateUser() {
 }
 
 export function useAddNewAddress() {
-  const { refetch } = useAuthContext();
+  const { refetch } = useAuth();
   const mutation = useMutation({
     mutationFn: addNewAddress,
     onSuccess: () => {
@@ -42,7 +44,7 @@ export function useAddNewAddress() {
 }
 
 export function useUpdateAddress() {
-  const { refetch } = useAuthContext();
+  const { refetch } = useAuth();
   const mutation = useMutation({
     mutationFn: updateAddress,
     onSuccess: () => {
@@ -57,7 +59,7 @@ export function useUpdateAddress() {
 }
 
 export function useUploadDriverLicense() {
-  const { refetch } = useAuthContext();
+  const { refetch } = useAuth();
   const mutation = useMutation({
     mutationFn: uploadDriverLicense,
     onSuccess: () => {

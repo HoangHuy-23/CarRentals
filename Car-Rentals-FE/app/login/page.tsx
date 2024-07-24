@@ -12,16 +12,25 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuthContext } from "../contexts/authContext";
+import useAuth from "../hooks/useAuth";
 
 export default function page() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { user, isAuthenticated, login, error } = useAuthContext();
+  const {
+    isAuthenticated,
+    login,
+    logout,
+    user,
+    isLoading,
+    error,
+    success,
+    refetch,
+  } = useAuth();
 
-  const handleLogin = () => {
-    login(email, password);
+  const handleLogin = async () => {
+    await login(email, password);
   };
 
   useEffect(() => {

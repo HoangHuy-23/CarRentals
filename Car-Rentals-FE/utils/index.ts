@@ -21,6 +21,16 @@ export const formatDateToString = (date: Date) => {
   return `${year}-${month}-${day}T${hours}:${minutes}`;
 };
 
+export const formatDateToStringType2 = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${hours}h${minutes}, ${day}/${month}/${year}`;
+};
+
 export const formatDateToLocalDate = (date: Date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -53,7 +63,7 @@ export const formatTimeToString = (date: Date) => {
 };
 
 export function formatPrice(number: number) {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 export const formatPriceToK = (num: number): string => {
@@ -70,13 +80,15 @@ export const formatPriceToK = (num: number): string => {
 };
 
 export const calculatorInsurance = (num: number) => {
-  return (num * 0.1).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  return num * 0.1;
 };
 
-export const calculatorSumPrice = (price: number, day: number) => {
-  return ((price + price * 0.1) * day)
-    .toString()
-    .replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+export const calculatorVAT = (num: number) => {
+  return num * 0.1;
+};
+
+export const calculatorRentalFee = (price: number, day: number) => {
+  return (price + price * 0.1) * day;
 };
 
 export function updateDateWithTime(date: Date, timeString: string) {

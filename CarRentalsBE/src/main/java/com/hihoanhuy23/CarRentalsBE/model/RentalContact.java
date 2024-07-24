@@ -28,6 +28,8 @@ public class RentalContact {
     private LocalDateTime pickUpDate;
     @Column(name = "drop_off_date")
     private LocalDateTime dropOffDate;
+	@Enumerated(EnumType.STRING)
+	private PickUpLocation pickUpLocation;
     @Column(name = "rental_insurance")
 	private Long rentalInsurance;
     @Column(name = "total_price")

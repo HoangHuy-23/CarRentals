@@ -48,6 +48,13 @@ public class UserServiceImplementation implements UserService{
         if (user==null) {
             throw new UserException("User not found with email: "+email);
         }
+        Set<UserAddress> addresses = user.getAddresses();
+        List<UserAddress> sortedAddresses = addresses.stream()
+                .sorted(Comparator.comparing(UserAddress::isDefault).reversed())
+                .collect(Collectors.toList());
+
+        Set<UserAddress> sortedAddressSet = new LinkedHashSet<>(sortedAddresses);
+        user.setAddresses(sortedAddressSet);
         return user;
     }
 

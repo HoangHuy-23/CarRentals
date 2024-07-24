@@ -12,13 +12,14 @@ import { Label } from "@/components/ui/label";
 import { Calendar as CalendarIcon, Pencil } from "lucide-react";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { useAuthContext } from "@/app/contexts/authContext";
+
 import { User } from "@/types";
 import { useUpdateUser } from "@/app/hooks/useUser";
 import { formatDayToString } from "@/utils";
+import useAuth from "@/app/hooks/useAuth";
 
 export function DialogEditAccount() {
-  const { user } = useAuthContext();
+  const { user } = useAuth();
   const { mutate, isPending, isError } = useUpdateUser();
   const [isOpen, setIsOpen] = useState(false);
   const [date, setDate] = useState<string>(user?.dob as unknown as string);

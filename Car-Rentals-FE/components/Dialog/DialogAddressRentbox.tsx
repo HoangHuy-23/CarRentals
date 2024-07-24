@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,16 +10,29 @@ import {
 } from "../ui/dialog";
 import { Car as CarIcon, ChevronDown, Circle, User } from "lucide-react";
 import { Button } from "../ui/button";
-import { Car } from "@/types";
+import { Car, PickUpLocation } from "@/types";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+import { setPickUpLocation } from "@/redux/reducer/bookingSlice";
 
 type Props = {
   data: Car | undefined;
 };
 
 export default function DialogAddressRentbox({ data }: Props) {
-  const [selectedCarAddress, setSelectedCarAddress] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { pickUpLocation } = useSelector((state: RootState) => state.booking);
+  const { user } = useSelector((state: RootState) => state.auth);
+  const [selectedCarAddress, setSelectedCarAddress] = useState(false);
   const [selectedCusAddress, setSelectedCusAddress] = useState(false);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (pickUpLocation === PickUpLocation.CAR_ADDRESS)
+      setSelectedCarAddress(true);
+    else setSelectedCusAddress(true);
+  }, []);
 
   const handleSelect = () => {
     if (selectedCarAddress) {
@@ -31,6 +44,16 @@ export default function DialogAddressRentbox({ data }: Props) {
       setSelectedCusAddress(false);
     }
   };
+  const handleSave = () => {
+    if (selectedCarAddress) {
+      dispatch(setPickUpLocation(PickUpLocation.CAR_ADDRESS));
+    }
+    if (selectedCusAddress) {
+      dispatch(setPickUpLocation(PickUpLocation.USER_ADDRESS));
+    }
+    setOpen(false);
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -40,9 +63,17 @@ export default function DialogAddressRentbox({ data }: Props) {
               Địa điểm giao nhận xe
             </label>
             <div className="flex justify-between">
-              <span>
-                {data?.address.ward}, {data?.address.city}
-              </span>
+              {pickUpLocation === PickUpLocation.CAR_ADDRESS ? (
+                <span>
+                  {data?.address.ward}, {data?.address.city}
+                </span>
+              ) : (
+                <span>
+                  {user?.addresses.at(0)?.street},{" "}
+                  {user?.addresses.at(0)?.district},{" "}
+                  {user?.addresses.at(0)?.ward}, {user?.addresses.at(0)?.city}
+                </span>
+              )}
               <ChevronDown />
             </div>
           </div>
@@ -99,7 +130,7 @@ export default function DialogAddressRentbox({ data }: Props) {
                   }`}
                 ></div>
               </div>
-              <div className="w-[90%]">
+              <div className="w-[90%] flex flex-col gap-2">
                 <h1 className="font-semibold text-gray-500">
                   Nhận xe tại vị trí xe
                 </h1>
@@ -130,10 +161,12 @@ export default function DialogAddressRentbox({ data }: Props) {
                   }`}
                 ></div>
               </div>
-              <div className="w-[90%]">
+              <div className="w-[90%] flex flex-col gap-2">
                 <h1 className="font-semibold text-gray-500">Địa chỉ của tôi</h1>
                 <span className="flex text-sm items-start gap-2">
-                  <User /> 34/3, Phường 4, Quận Tân bình, Tp, Hồ Chí Minh
+                  <User /> {user?.addresses.at(0)?.street},{" "}
+                  {user?.addresses.at(0)?.district},{" "}
+                  {user?.addresses.at(0)?.ward}, {user?.addresses.at(0)?.city}
                 </span>
               </div>
             </div>
@@ -143,7 +176,7 @@ export default function DialogAddressRentbox({ data }: Props) {
           <Button
             type="button"
             className="bg-blue-500 hover:bg-blue-300"
-            //onClick={handleSave}
+            onClick={handleSave}
           >
             Lưu
           </Button>

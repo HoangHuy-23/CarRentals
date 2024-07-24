@@ -87,3 +87,14 @@ export type CarSearchResponse = {
     pages: number;
   };
 };
+
+export type PaymentResponse = {
+  code: string;
+  message: string;
+  paymentUrl: string;
+};
+
+export enum PickUpLocation {
+  CAR_ADDRESS,
+  USER_ADDRESS,
+}

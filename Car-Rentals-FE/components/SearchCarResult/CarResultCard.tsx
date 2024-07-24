@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Car } from "@/types";
 import { useRouter } from "next/navigation";
 import { formatPriceToK } from "@/utils";
+import { useDispatch } from "react-redux";
 
 type Props = {
   car: Car;
@@ -19,6 +20,7 @@ export default function SearchResultCard({
   isfavourite,
   myFavourite,
 }: Props) {
+  const dispatch = useDispatch();
   const router = useRouter();
 
   const [favourite, setFavourite] = useState<boolean>(false);
@@ -119,6 +121,7 @@ export default function SearchResultCard({
           className="bg-blue-500 hover:bg-blue-300"
           onClick={() => {
             router.push(`/car/${car.id}`);
+            //dispatch(setPick)
           }}
         >
           Xem chi tiết
